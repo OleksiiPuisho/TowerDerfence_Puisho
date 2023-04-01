@@ -8,13 +8,18 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _speedPosition;
     [SerializeField] private float _speedZoom;
 
+    [Header("Calmp Position")]
     [SerializeField] private float _minX;
     [SerializeField] private float _minZ;
     [SerializeField] private float _maxX;
     [SerializeField] private float _maxZ;
 
+    [Header("Calmp Zoom")]
+    [SerializeField] private float _minZoom;
+    [SerializeField] private float _maxZoom;
+
     [SerializeField] private float _zoomDistance;
-    private const float _speedCorrectedHeight = 60f;
+    private const float _speedCorrectedHeight = 40f;
 
     private Touch _touch0;
     private Touch _touch1;
@@ -31,6 +36,7 @@ public class CameraController : MonoBehaviour
         CameraRaycast();
         CameraMovement(_camera.transform);
         Zoom();
+        _zoomDistance = Mathf.Clamp(_zoomDistance, _minZoom, _maxZoom);
     }
     private void CameraMovement(Transform camera)
     {
