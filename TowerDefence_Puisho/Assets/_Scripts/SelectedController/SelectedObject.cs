@@ -7,6 +7,7 @@ using TMPro;
 public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickHandler,IPointerUpHandler
 {
     public GameObject SelectedIcon;
+    public TypeObject TypeObject;
     public void OnPointerClick(PointerEventData eventData)
     {
         SelectedObjectController.CurrentSelectedObject = this;

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Upgrade", menuName = "Create/UpgradeBase")]
 public class UpgradeScriptable : ScriptableObject
 {
-    public Level LevelUp;
+    public Level Level;
     public float MaxHealth;
     public int Armor;
     public int Price;

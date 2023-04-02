@@ -21,14 +21,9 @@ public class MainBase : MonoBehaviour
         if (CurrentHealth <= 0f)
             GameOver.Invoke();
     }
-    [ContextMenu("gggg")]
-    private void GGGG()
+    public void UpdateLevelMainBase()
     {
-        CurrentHealth -= 25f;
-    }
-    private void UpdateLevelMainBase()///////////////!!!!!!!!!!!!
-    {
-        if (CurrentLevel.LevelUp == Level.Level_0)
+        if (CurrentLevel.Level == Level.Level_0)
         {
             if (_allLevelsBase[1].Price <= GameController.Money)
             {
@@ -36,7 +31,7 @@ public class MainBase : MonoBehaviour
                 GameController.Money -= CurrentLevel.Price;
             }
         }
-        else if(CurrentLevel.LevelUp == Level.Level_1)
+        else if(CurrentLevel.Level == Level.Level_1)
         {
             if (_allLevelsBase[2].Price <= GameController.Money)
             {
@@ -44,7 +39,7 @@ public class MainBase : MonoBehaviour
                 GameController.Money -= CurrentLevel.Price;
             }
         }
-        else if (CurrentLevel.LevelUp == Level.Level_2)
+        else if (CurrentLevel.Level == Level.Level_2)
         {
             return;
         }
