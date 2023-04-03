@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2599175246774573099}
   - component: {fileID: 2599175246771181579}
   - component: {fileID: 2599175246772280011}
+  - component: {fileID: 1773849785665292866}
+  - component: {fileID: 1773849785665292867}
   m_Layer: 0
   m_Name: Buggy
   m_TagString: Untagged
@@ -83,3 +85,40 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!195 &1773849785665292866
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599175246774469643}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.7
+  m_Speed: 5
+  m_Acceleration: 8
+  avoidancePriority: 99
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 3
+--- !u!114 &1773849785665292867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599175246774469643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329124cb3cd9080429f0e0f7ba2ad9c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainBaseTarget: {fileID: 0}
+  _targetAttack: {fileID: 0}
+  _enemyScriptable: {fileID: 11400000, guid: 6ba86f0c23cfd9d42908a0eda8897024, type: 2}
