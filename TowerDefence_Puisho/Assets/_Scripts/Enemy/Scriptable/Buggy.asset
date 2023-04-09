@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d290179224b26f4db042af9a830704f, type: 3}
   m_Name: Buggy
   m_EditorClassIdentifier: 
-  HealthEnemy: 150
+  TypeEnemy: 0
+  MaxHealthEnemy: 150
   MinDamage: 3
   MaxDamage: 7
-  ReloadGun: 3
-  RadiusShooting: 10
-  Reward: 30
+  SpeedBulletEneny: 3
+  ReloadGun: 1
+  RadiusShooting: 8
+  Reward: 22

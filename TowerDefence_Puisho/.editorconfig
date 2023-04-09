@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0010: Добавить отсутствующие варианты
+dotnet_diagnostic.IDE0010.severity = none

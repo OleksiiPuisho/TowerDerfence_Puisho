@@ -2,50 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public enum EnemyState
 {
     Movement,
-    SearchTarget,
-    AttackTower,
     AttackMainBase
 }
 public class Enemy : MonoBehaviour
 {
     private NavMeshAgent _agent;
+    [SerializeField] private Slider _healthSlider;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private Transform _mainBaseTarget;
-    [SerializeField] private Transform _targetAttack;
-    private bool hasAttack;
-    [SerializeField] private EnemyScriptable _enemyScriptable;
+    private bool _hasAttack;
+    public EnemyScriptable EnemyScriptable;
+    public float CurrentHealthEnemy;
     
     private EnemyState _currentEnemyState;
-    void Start()
+    void Awake()
     {
+        _mainBaseTarget = FindObjectOfType<MainBase>().transform;
         _agent = GetComponent<NavMeshAgent>();
         StartCoroutine(ReloadCorutine());
         _currentEnemyState = EnemyState.Movement;
+        CurrentHealthEnemy = EnemyScriptable.MaxHealthEnemy;
+        _healthSlider.maxValue = EnemyScriptable.MaxHealthEnemy;
+        _healthSlider.value = EnemyScriptable.MaxHealthEnemy;
+        _healthSlider.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        StateAgent(_currentEnemyState);
-        Debug.Log(_currentEnemyState);
+        UpdateStateAgent(_currentEnemyState);
+        if (CurrentHealthEnemy <= 0)
+            Destroy(gameObject);
     }
-    private void StateAgent(EnemyState enemyState)
+    private void UpdateStateAgent(EnemyState enemyState)
     {
         _currentEnemyState = enemyState;
+        _healthSlider.value = CurrentHealthEnemy;
+        if (CurrentHealthEnemy < EnemyScriptable.MaxHealthEnemy && _healthSlider.gameObject.activeSelf == false)
+            _healthSlider.gameObject.SetActive(true);
         switch (enemyState)
         {
             case EnemyState.Movement:
                 Movement();
-                break;
-            case EnemyState.SearchTarget:
-                SearchTarget();
-                break;
-            case EnemyState.AttackTower:
-                AttackTower();
                 break;
             case EnemyState.AttackMainBase:
                 AttackMainBase();
@@ -54,73 +57,58 @@ public class Enemy : MonoBehaviour
     }
     private void Movement()
     {
-        if (_currentEnemyState == EnemyState.Movement)
-            _agent.SetDestination(_mainBaseTarget.position);
+        _agent.destination = _mainBaseTarget.position;
 
-        if (Vector3.Distance(_agent.transform.position, _mainBaseTarget.position) <= _enemyScriptable.RadiusShooting)
+        if (Vector3.Distance(_agent.transform.position, _mainBaseTarget.position) <= EnemyScriptable.RadiusShooting)
         {
-            StateAgent(EnemyState.AttackMainBase);
-        }
-        else
-        {
-            if (hasAttack)
-            {
-                if(_targetAttack == null)
-                    StateAgent(EnemyState.SearchTarget);
-                else
-                {
-                    Shooting(_targetAttack);
-                }
-            }
-        }
-    }
-    private void SearchTarget()
-    {
-        foreach(Tower tower in TowerController.Towers)
-        {
-            if(Vector3.Distance(_agent.transform.position, tower.transform.position) <= _enemyScriptable.RadiusShooting)
-            {
-                _targetAttack = tower.transform;
-                StateAgent(EnemyState.AttackTower);
-            }
-        }
-    }
-    private void AttackTower()
-    {
-        if (hasAttack)
-        {
-            Shooting(_targetAttack);
+            UpdateStateAgent(EnemyState.AttackMainBase);
         }
     }
     private void AttackMainBase()
     {
-        if (hasAttack)
+        if (_hasAttack)
         {
             _agent.destination = transform.position;
-            _targetAttack = _mainBaseTarget;
-            Shooting(_targetAttack);
+            Shooting(_mainBaseTarget);
         }
+        if (Vector3.Distance(_agent.transform.position, _mainBaseTarget.position) > EnemyScriptable.RadiusShooting)
+            UpdateStateAgent(EnemyState.Movement);
     }
     private void Shooting(Transform target)
     {
-        if(_currentEnemyState == EnemyState.AttackTower)
+        if (_hasAttack)
         {
-            Instantiate(_bulletPrefab, _spawnBullet);
-            hasAttack = false;
-            StartCoroutine(ReloadCorutine());
-            StateAgent(EnemyState.Movement);
-        }
-        if(_currentEnemyState == EnemyState.AttackMainBase)
-        {
-            ////shoot
-            Debug.Log("MainBase");
-            hasAttack = false;
+            GameObject bullet = Instantiate(_bulletPrefab);
+            bullet.transform.position = _spawnBullet.position;
+            bullet.transform.LookAt(target);
+            bullet.GetComponent<Bullet>().DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage);
+            bullet.GetComponent<Bullet>().SpeedBullet = EnemyScriptable.SpeedBulletEneny;
+            bullet.layer = LayerMask.NameToLayer("BulletEnemy");
+            _hasAttack = false;
             StartCoroutine(ReloadCorutine());
         }
     }
     IEnumerator ReloadCorutine()
     {
-        yield return new WaitForSeconds(_enemyScriptable.ReloadGun);
-        hasAttack = true;
+        yield return new WaitForSeconds(EnemyScriptable.ReloadGun);
+        _hasAttack = true;
+    }
+    private void OnEnable()
+    {
+        if (EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
+            WaveController.EnemiesGroundList.Add(this);
+
+        else if (EnemyScriptable.TypeEnemy == TypeEnemy.Air)
+            WaveController.EnemiesAirList.Add(this);
+    }
+    private void OnDestroy()
+    {
+        WaveController.EnemyCountLeft--;
+        GameController.Money += EnemyScriptable.Reward;
+        if (EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
+            WaveController.EnemiesGroundList.Remove(this);
+
+        else if (EnemyScriptable.TypeEnemy == TypeEnemy.Air)
+            WaveController.EnemiesAirList.Remove(this);       
     }
 }

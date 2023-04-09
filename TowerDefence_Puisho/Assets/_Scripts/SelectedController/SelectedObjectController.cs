@@ -14,7 +14,7 @@ public class SelectedObjectController : MonoBehaviour
     }
     void Awake()
     {
-        
+        BuildPointsController.BuildingEvent += DeselectedAll;
     }
 
     void Update()

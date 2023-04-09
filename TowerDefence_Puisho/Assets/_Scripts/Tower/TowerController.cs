@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class TowerController : MonoBehaviour
 {
-    public static List<Tower> Towers;
+    public static List<Tower> Towers = new();
+    public static TowerScriptable[] TowerScriptables;
     void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
     {
         
     }

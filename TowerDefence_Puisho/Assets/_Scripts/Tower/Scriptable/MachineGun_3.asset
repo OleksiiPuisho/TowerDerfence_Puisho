@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08caf29c060ef844fbabf71f145a862d, type: 3}
+  m_Name: MachineGun_3
+  m_EditorClassIdentifier: 
+  TowerLevel: 2
+  HasAttackGroundTarget: 1
+  HasAttackAirTarget: 1
+  NextPrefabTower: {fileID: 7979552494319624223, guid: 26588e2f75f2b524daaeee635eed2929, type: 3}
+  Name: Machine Gun
+  MaxHealth: 500
+  MinDamageTower: 7
+  MaxDamageTower: 15
+  SpeedBulletTower: 30
+  SpeedRotation: 20
+  ReloadGunTower: 0.08
+  RadiusAttack: 15
+  PriceTower: 400
+  PriceUpgrade: 99999

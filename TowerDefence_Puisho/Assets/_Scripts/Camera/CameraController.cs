@@ -29,6 +29,9 @@ public class CameraController : MonoBehaviour
     {
         _camera = gameObject.transform;
         _centerScreen = new Vector2(Screen.width / 2, Screen.height / 2);
+#if UNITY_EDITOR
+        _speedPosition *= 2f;
+#endif
     }
 
     void LateUpdate()
@@ -40,6 +43,7 @@ public class CameraController : MonoBehaviour
     }
     private void CameraMovement(Transform camera)
     {
+#if PLATFORM_ANDROID
         if (Input.touchCount == 1)
         {
             var touchPoint = Input.GetTouch(0);
@@ -48,6 +52,26 @@ public class CameraController : MonoBehaviour
 
             camera.position = new Vector3(Mathf.Clamp(camera.position.x + speedX, _minX, _maxX), camera.position.y, Mathf.Clamp(camera.position.z + speedZ, _minZ, _maxZ));
         }
+#endif
+#if UNITY_EDITOR
+        if(Input.GetKey(KeyCode.W))
+        {
+            camera.position = new Vector3(camera.position.x, camera.position.y, Mathf.Clamp(camera.position.z - _speedPosition * Time.deltaTime, _minZ, _maxZ));
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            camera.position = new Vector3(camera.position.x, camera.position.y, Mathf.Clamp(camera.position.z + _speedPosition * Time.deltaTime, _minZ, _maxZ));
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            camera.position = new Vector3(Mathf.Clamp(camera.position.x + _speedPosition * Time.deltaTime, _minX, _maxX), camera.position.y, camera.position.z);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            camera.position = new Vector3(Mathf.Clamp(camera.position.x - _speedPosition * Time.deltaTime, _minX, _maxX), camera.position.y, camera.position.z);
+        }
+#endif
+
     }
     private void Zoom()
     {
