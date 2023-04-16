@@ -1,28 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
+using Helpers.Events;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private TypeBullet _typeBullet;
-    private Rigidbody _rigidbodyBullet;
-    public float SpeedBullet;
-    public float DamageBullet;
+    [SerializeField] private float _timeToDeactivationBullet;
+    [HideInInspector] public float SpeedBullet;
+    [HideInInspector] public float DamageBullet;
     [SerializeField] private float _radiusExplosion;
-    void Awake()
+    public void AutoPutBullet()
     {
-        _rigidbodyBullet = GetComponent<Rigidbody>();
-        Destroy(gameObject, 5f);
+        Invoke(nameof(AutoPut), _timeToDeactivationBullet);
     }
-
-    void Start()
+    private void Update()
     {
-        _rigidbodyBullet.AddForce(transform.forward * SpeedBullet, ForceMode.Impulse);
+        transform.Translate(transform.forward * (SpeedBullet * Time.deltaTime), Space.World);
     }
     private void Explosion()
     {
-        var colliders = Physics.SphereCastAll(transform.position, _radiusExplosion, transform.position);
-        foreach(var collider in colliders)
+        var colliders = Physics.SphereCastAll(transform.position, _radiusExplosion, transform.forward);
+        Debug.Log(colliders.Length);
+        foreach (var collider in colliders)
         {
             if(collider.collider.TryGetComponent<MainBase>(out var mainBase))
             {                
@@ -30,19 +31,32 @@ public class Bullet : MonoBehaviour
             }
             else if(collider.collider.TryGetComponent<Enemy>(out var enemy))
             {
-                float distance = Vector3.Distance(transform.position, enemy.transform.position);
-                float normalize = distance / DamageBullet;
-                enemy.CurrentHealthEnemy -= normalize;
+                if (enemy.EnemyScriptable.TypeEnemy == TypeEnemy.Air)
+                {
+                    float distance = Vector3.Distance(transform.position, enemy.transform.position);
+                    float distanceDamage = distance * 100 / DamageBullet;
+                    enemy.CurrentHealthEnemy -= distanceDamage;
+                }
             }
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void AutoPut()
     {
+        SpawnController.PutObject(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {       
         if (_typeBullet == TypeBullet.Bullet)
         {
-            if (collision.gameObject.GetComponent<MainBase>())
+            if (gameObject.layer == LayerMask.NameToLayer("BulletEnemy") && collision.gameObject.GetComponent<MainBase>())
             {
                 MainBase.CurrentHealthBase -= DamageBullet;
+                EventAggregator.Post(this, new UpdateInfoMainBaseEvent() 
+                { 
+                    CurrentHealth = MainBase.CurrentHealthBase - DamageBullet,
+                    MaxHealthBase = MainBase.CurrentLevel.MaxHealth
+                });
             }
             if (collision.gameObject.TryGetComponent<Enemy>(out var enemy))
             {
@@ -53,9 +67,9 @@ public class Bullet : MonoBehaviour
         {
             Explosion();
         }
-        Destroy(gameObject);
+        SpawnController.PutObject(gameObject);
     }
-    private void OnDestroy()
+    private void OnEnable()
     {
         
     }

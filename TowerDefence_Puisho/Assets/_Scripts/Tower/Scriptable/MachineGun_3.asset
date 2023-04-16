@@ -20,9 +20,9 @@ MonoBehaviour:
   MaxHealth: 500
   MinDamageTower: 7
   MaxDamageTower: 15
-  SpeedBulletTower: 30
+  SpeedBulletTower: 50
   SpeedRotation: 20
-  ReloadGunTower: 0.08
+  ReloadGunTower: 0.1
   RadiusAttack: 15
   PriceTower: 400
-  PriceUpgrade: 99999
+  PriceUpgrade: 0

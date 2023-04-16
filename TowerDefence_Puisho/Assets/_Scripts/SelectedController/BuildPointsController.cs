@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
+using Helpers;
+using Helpers.Events;
 using TMPro;
 
 public class BuildPointsController : MonoBehaviour
 {
     public static SelectedBuilPoint ActivePoint;
-    public static event Action BuildingEvent = delegate { };
-    private bool _updateEvent;
     [Header("Prefabs Towers")]
     [SerializeField] private GameObject _prefabMachineGun;
     [SerializeField] private GameObject _prefabRocket;
@@ -19,55 +18,66 @@ public class BuildPointsController : MonoBehaviour
     [SerializeField] private TMP_Text _priceMachineGun;
     [SerializeField] private Button _rocketButton;
     [SerializeField] private TMP_Text _priceRocket;
-    public void DeselectedBuildPoint() // and use by trigger event
+    public void DeselectedBuildPoint()
     {
         if (ActivePoint != null)
         {
             ActivePoint.GetComponent<Animator>().SetBool("IsSelected", false);
             ActivePoint = null;
-            _updateEvent = false;
         }
+        EventAggregator.Post(this, new DeselectedAllEvent());
     }
     void Awake()
     {
-        SelectedObjectController.IsSelected += DeselectedBuildPoint;
-
-        _machineGunButton.onClick.AddListener(BuildMachineGun);
-        _rocketButton.onClick.AddListener(BuildRocket);
-
-        //Priced Towers
         _priceMachineGun.text = _prefabMachineGun.GetComponent<Tower>().TowerScriptable.PriceTower.ToString();
         _priceRocket.text = _prefabRocket.GetComponent<Tower>().TowerScriptable.PriceTower.ToString();
+
+        EventAggregator.Subscribe<SelectedBuildPointEvent>(SelectedPoint);
+        EventAggregator.Subscribe<DeselectedAllEvent>(Deselected);
+        _machineGunButton.onClick.AddListener(BuildMachineGun);
+        _rocketButton.onClick.AddListener(BuildRocket);
+    } 
+    private void SelectedPoint(object sender, SelectedBuildPointEvent eventData)
+    {
+        ActivePoint.GetComponent<Animator>().SetBool("IsSelected", true);
     }
-    void Update()
+    private GameObject InstantiateTower(GameObject prefab)
     {
-        if (ActivePoint != null && !_updateEvent)
-        {
-            BuildingEvent.Invoke();
-            ActivePoint.GetComponent<Animator>().SetBool("IsSelected", true);
-            _updateEvent = true;
-        }
-    }    
-    private void InstantiateTower(GameObject prefab)
-    {
-        GameObject tower = Instantiate(prefab, ActivePoint.transform);
+        GameObject tower = SpawnController.GetObject(prefab);
+        tower.transform.SetParent(ActivePoint.transform);
+
         tower.transform.position = ActivePoint.SpawnTower.position;
         ActivePoint.transform.GetChild(0).gameObject.SetActive(false);
         ActivePoint.GetComponent<BoxCollider>().enabled = false;
         DeselectedBuildPoint();
+        return tower;
     }
     private void BuildMachineGun()
     {
         if (_prefabMachineGun.GetComponent<Tower>().TowerScriptable.PriceTower <= GameController.Money)
         {
-            InstantiateTower(_prefabMachineGun);
+            var obj =  InstantiateTower(_prefabMachineGun);
+            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<Tower>().TowerScriptable.PriceTower });           
         }
     }
     private void BuildRocket()
     {
         if (_prefabRocket.GetComponent<Tower>().TowerScriptable.PriceTower <= GameController.Money)
         {
-            InstantiateTower(_prefabRocket);
+            var obj = InstantiateTower(_prefabRocket);
+            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<Tower>().TowerScriptable.PriceTower });
         }
+    }
+    private void Deselected(object sender, DeselectedAllEvent eventData)
+    {
+        if (ActivePoint != null)
+        {
+            ActivePoint.GetComponent<Animator>().SetBool("IsSelected", false);
+            ActivePoint = null;
+        }
+    }
+    private void OnDestroy()
+    {
+        EventAggregator.Unsubscribe<SelectedBuildPointEvent>(SelectedPoint);
     }
 }

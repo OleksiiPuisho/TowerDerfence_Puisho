@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08caf29c060ef844fbabf71f145a862d, type: 3}
-  m_Name: MachineGun_1
+  m_Name: Rocket_2
   m_EditorClassIdentifier: 
-  TowerLevel: 0
-  HasAttackGroundTarget: 1
+  TowerLevel: 1
+  HasAttackGroundTarget: 0
   HasAttackAirTarget: 1
-  NextPrefabTower: {fileID: 3399741375933325918, guid: ef250ff100ed1f14aa80a0d3696e7c2e, type: 3}
-  Name: Machine Gun
-  MaxHealth: 200
-  MinDamageTower: 3
-  MaxDamageTower: 7
-  SpeedBulletTower: 20
-  SpeedRotation: 13
-  ReloadGunTower: 0.1
-  RadiusAttack: 7
-  PriceTower: 100
-  PriceUpgrade: 200
+  NextPrefabTower: {fileID: 4674743552813131360, guid: 5c6b5c61b27a5bf4d967bb5e58c54a52, type: 3}
+  Name: Rocket
+  MaxHealth: 600
+  MinDamageTower: 20
+  MaxDamageTower: 35
+  SpeedBulletTower: 3
+  SpeedRotation: 5
+  ReloadGunTower: 3
+  RadiusAttack: 8
+  PriceTower: 300
+  PriceUpgrade: 800

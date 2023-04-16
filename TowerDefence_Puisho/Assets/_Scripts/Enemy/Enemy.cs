@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using Helpers;
+using Helpers.Events;
 
 public enum EnemyState
 {
@@ -16,6 +18,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private Transform _mainBaseTarget;
+    [SerializeField] private string _layerBullet;
     private bool _hasAttack;
     public EnemyScriptable EnemyScriptable;
     public float CurrentHealthEnemy;
@@ -78,12 +81,15 @@ public class Enemy : MonoBehaviour
     {
         if (_hasAttack)
         {
-            GameObject bullet = Instantiate(_bulletPrefab);
+            var bulletObject = SpawnController.GetObject(_bulletPrefab);
+            var bullet = bulletObject.GetComponent<Bullet>();
+            bullet.DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage);
+            bullet.SpeedBullet = EnemyScriptable.SpeedBulletEneny;
             bullet.transform.position = _spawnBullet.position;
-            bullet.transform.LookAt(target);
-            bullet.GetComponent<Bullet>().DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage);
-            bullet.GetComponent<Bullet>().SpeedBullet = EnemyScriptable.SpeedBulletEneny;
-            bullet.layer = LayerMask.NameToLayer("BulletEnemy");
+            bullet.transform.LookAt(_mainBaseTarget.transform);
+            bullet.gameObject.layer = LayerMask.NameToLayer(_layerBullet);
+            bullet.gameObject.SetActive(true);
+
             _hasAttack = false;
             StartCoroutine(ReloadCorutine());
         }
@@ -103,12 +109,11 @@ public class Enemy : MonoBehaviour
     }
     private void OnDestroy()
     {
-        WaveController.EnemyCountLeft--;
-        GameController.Money += EnemyScriptable.Reward;
+        EventAggregator.Post(this, new MoneyUpdateEvent() {MoneyCount = EnemyScriptable.Reward});
+        EventAggregator.Post(this, new EnemyDeathEvent());
         if (EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
             WaveController.EnemiesGroundList.Remove(this);
-
-        else if (EnemyScriptable.TypeEnemy == TypeEnemy.Air)
-            WaveController.EnemiesAirList.Remove(this);       
+        else
+            WaveController.EnemiesAirList.Remove(this);
     }
 }

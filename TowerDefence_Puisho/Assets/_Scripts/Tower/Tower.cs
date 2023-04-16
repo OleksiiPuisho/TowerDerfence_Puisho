@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
+using Helpers.Events;
 
 public class Tower : MonoBehaviour
 {
@@ -19,7 +21,6 @@ public class Tower : MonoBehaviour
     private bool _lookToTarget = false;
     void Start()
     {
-        TowerController.Towers.Add(this);
         StartCoroutine(TowerReloadCorutine());
         CurrentHealthTower = TowerScriptable.MaxHealth;
     }
@@ -27,7 +28,6 @@ public class Tower : MonoBehaviour
     void Update()
     {
         UpdateState(_currentState);
-        
     }
     public void UpgradeLevelTower()
     {
@@ -37,17 +37,46 @@ public class Tower : MonoBehaviour
             {
                 GameObject newTower = Instantiate(TowerScriptable.NextPrefabTower, transform.parent);
                 newTower.transform.position = transform.position;
+                SelectedObjectController.CurrentSelectedObject = newTower.GetComponent<SelectedObject>();
+                var tower = newTower.GetComponent<Tower>();
+                EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -TowerScriptable.PriceUpgrade});
+                if (tower.CurrentTowerLevel == TowerLevel.Level_3)
+                {
+                    EventAggregator.Post(this, new SelectedTowerEvent()
+                    {
+                        Name = tower.TowerScriptable.Name,
+                        MinDamage = tower.TowerScriptable.MinDamageTower.ToString(),
+                        MaxDamage = tower.TowerScriptable.MaxDamageTower.ToString(),
+                        Level = tower.CurrentTowerLevel.ToString()[6..],
+                        PriceUpgrade = "Max Level",
+                        Radius = tower.TowerScriptable.RadiusAttack.ToString(),
+                        RateOfFire = tower.TowerScriptable.ReloadGunTower.ToString()
+                    });
+                }
+                else
+                {
+                    EventAggregator.Post(this, new SelectedTowerEvent()
+                    {
+                        Name = tower.TowerScriptable.Name,
+                        MinDamage = tower.TowerScriptable.MinDamageTower.ToString(),
+                        MaxDamage = tower.TowerScriptable.MaxDamageTower.ToString(),
+                        Level = tower.CurrentTowerLevel.ToString()[6..],
+                        PriceUpgrade = tower.TowerScriptable.PriceUpgrade.ToString(),
+                        Radius = tower.TowerScriptable.RadiusAttack.ToString(),
+                        RateOfFire = tower.TowerScriptable.ReloadGunTower.ToString()
+                    });
+                }
+                
                 Destroy(gameObject);
             }
             else
             {
-                LevelHUD.IsNotMoney = true;
+                EventAggregator.Post(this, new NotEnoughMoneyEvent());
             }
         }
         else if (CurrentTowerLevel == TowerLevel.Level_3)
         {
-            Debug.Log("Level Max");
-            return;
+            EventAggregator.Post(this, new LevelMaxEvent());
         }
     }
     private void UpdateState(StateTower stateTower)
@@ -96,23 +125,29 @@ public class Tower : MonoBehaviour
     }
     private void Attack()
     {
+        
         if (_targetAttack != null)
         {
             RotateTower();
             if (_hasAttack && _lookToTarget)
             {
-                GameObject bullet = Instantiate(_prefabBullet);
-                bullet.transform.position = _spawnBullet.position;
-                bullet.transform.LookAt(_targetAttack.transform);
-                bullet.GetComponent<Bullet>().DamageBullet = Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower);
-                bullet.GetComponent<Bullet>().SpeedBullet = TowerScriptable.SpeedBulletTower;
+                _spawnBullet.LookAt(_targetAttack.transform);
+                var bulletObject = SpawnController.GetObject(_prefabBullet);
+                var bullet = bulletObject.GetComponent<Bullet>();
+                bulletObject.transform.SetPositionAndRotation(_spawnBullet.position, _spawnBullet.rotation);
 
-                GameObject particle = Instantiate(_prefabParticleShot);
-                particle.transform.position = _spawnBullet.position;
+                bullet.DamageBullet = Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower);
+                bullet.SpeedBullet = TowerScriptable.SpeedBulletTower;
+                
 
-                StartCoroutine(TowerReloadCorutine());
+                bullet.gameObject.SetActive(true);
+                bullet.AutoPutBullet();
+
                 _hasAttack = false;
+                StartCoroutine(TowerReloadCorutine());
+                
             }
+
             if (Vector3.Distance(transform.position, _targetAttack.transform.position) > TowerScriptable.RadiusAttack)
             {
                 _targetAttack = null;
@@ -125,6 +160,7 @@ public class Tower : MonoBehaviour
         }
         else
             UpdateState(StateTower.SearchTarget);
+        
     }
     private void RotateTower()
     {
@@ -132,7 +168,7 @@ public class Tower : MonoBehaviour
         _turret.rotation = Quaternion.Slerp(_turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
         if (!_lookToTarget)
         {
-            if (Physics.Raycast(_spawnBullet.position, _spawnBullet.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+            if (Physics.Raycast(_turret.position, _turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
             {
                 if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
                 {
@@ -140,17 +176,7 @@ public class Tower : MonoBehaviour
                     _lookToTarget = true;
                 }
             }
-            else
-                UpdateState(StateTower.SearchTarget);
         }
-    }
-    private void OnDestroy()
-    {
-        TowerController.Towers.Remove(this);
-    }
-    private void OnEnable()
-    {
-        GameController.Money -= TowerScriptable.PriceTower;
     }
     IEnumerator TowerReloadCorutine()
     {

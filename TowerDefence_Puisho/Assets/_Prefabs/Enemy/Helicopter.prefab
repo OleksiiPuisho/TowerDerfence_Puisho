@@ -299,7 +299,6 @@ GameObject:
   - component: {fileID: 6329936145836970636}
   - component: {fileID: 2318910359619181487}
   - component: {fileID: 7157733261154417201}
-  - component: {fileID: -8307085822706959906}
   m_Layer: 3
   m_Name: Helicopter
   m_TagString: Untagged
@@ -385,7 +384,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 4
+  m_Speed: 3
   m_Acceleration: 15
   avoidancePriority: 70
   m_AngularSpeed: 120
@@ -413,6 +412,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 1829933140125466711, guid: 47e7e50060d49c5419c83e9f37b283d8, type: 3}
   _spawnBullet: {fileID: 6329936145694726038}
   _mainBaseTarget: {fileID: 0}
+  _layerBullet: 
   EnemyScriptable: {fileID: 11400000, guid: 42efc9b7db199d1479415d19f36153b0, type: 2}
   CurrentHealthEnemy: 100
 --- !u!54 &2318910359619181487
@@ -443,19 +443,6 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.2003164, y: 0.7, z: 1.2361493}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &-8307085822706959906
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6329936145837003823}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2003164, y: 0.4613336, z: 1.2361493}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6329936145938878509
 GameObject:

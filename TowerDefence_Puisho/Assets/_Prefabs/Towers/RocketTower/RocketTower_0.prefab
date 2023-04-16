@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b32bfbc084f96a34eb19c2e1748a6048, type: 2}
+  - {fileID: 2100000, guid: 30715aa7b195f5042aa3abf58fa4b686, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1948963630361389567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -275,7 +275,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 7508138889284796956, guid: afda50c098ce1494484b3ca240ff17be, type: 3}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -367,7 +367,7 @@ PrefabInstance:
     - target: {fileID: 4857279958464010597, guid: 96fb3f64f6950b744b79b1f0a481af7a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b32bfbc084f96a34eb19c2e1748a6048, type: 2}
+      objectReference: {fileID: 2100000, guid: 30715aa7b195f5042aa3abf58fa4b686, type: 2}
     - target: {fileID: 4857279958465780613, guid: 96fb3f64f6950b744b79b1f0a481af7a, type: 3}
       propertyPath: m_RootOrder
       value: 0

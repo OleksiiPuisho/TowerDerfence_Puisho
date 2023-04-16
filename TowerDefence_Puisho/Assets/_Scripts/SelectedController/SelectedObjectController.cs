@@ -2,27 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Helpers;
+using Helpers.Events;
 
 public class SelectedObjectController : MonoBehaviour
 {
     public static SelectedObject CurrentSelectedObject;
-    public static event Action IsSelected = delegate { };
     public void DeselectedAll()
     {
-        if(CurrentSelectedObject != null)
-        CurrentSelectedObject = null;
+        if (CurrentSelectedObject != null)
+        {
+            CurrentSelectedObject.SelectedIcon.SetActive(false);
+            CurrentSelectedObject = null;
+        }
+        EventAggregator.Post(this, new DeselectedAllEvent());
     }
     void Awake()
     {
-        BuildPointsController.BuildingEvent += DeselectedAll;
+        EventAggregator.Subscribe<SelectedMainBaseEvent>(SelectedMainBaseChange);
+        EventAggregator.Subscribe<SelectedTowerEvent>(SelectedTowerChange);
     }
-
-    void Update()
+    private void SelectedMainBaseChange(object sender, SelectedMainBaseEvent eventData)
     {
-        if(CurrentSelectedObject != null && CurrentSelectedObject.SelectedIcon.activeSelf == false)
-        {
-            IsSelected.Invoke();
-            CurrentSelectedObject.SelectedIcon.SetActive(true);
-        }
+        CurrentSelectedObject.SelectedIcon.SetActive(true);
+    }
+    private void SelectedTowerChange(object sender, SelectedTowerEvent eventData)
+    {
+        CurrentSelectedObject.SelectedIcon.SetActive(true);
     }
 }

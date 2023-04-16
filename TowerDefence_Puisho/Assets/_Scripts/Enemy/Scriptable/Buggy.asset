@@ -16,7 +16,7 @@ MonoBehaviour:
   MaxHealthEnemy: 150
   MinDamage: 3
   MaxDamage: 7
-  SpeedBulletEneny: 3
+  SpeedBulletEneny: 10
   ReloadGun: 1
   RadiusShooting: 8
-  Reward: 22
+  Reward: 10

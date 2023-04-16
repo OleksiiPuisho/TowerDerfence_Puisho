@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Waves:
   - EnemyInstances:
-    - Count: 5
+    - Count: 0
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
-    - Count: 2
+    - Count: 10
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
   - EnemyInstances:
     - Count: 10
@@ -28,6 +28,3 @@ MonoBehaviour:
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
     - Count: 8
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
-  - EnemyInstances:
-    - Count: 30
-      PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}

@@ -1,107 +1,108 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
+using Helpers.Events;
 public class WaveController : MonoBehaviour
 {
     public static List<Enemy> EnemiesGroundList = new();
     public static List<Enemy> EnemiesAirList = new();
-    private List<GameObject> _spawnEnemyList = new();
-    public static event System.Action GameWin = delegate { };
-    public static event System.Action WaitNextLevel = delegate { };
-    public static event System.Action StartLevel = delegate { };
+    private List<GameObject> _currentSpawnEnemyList = new();// осталось создать врагов
+    private int _enemyCounter;
 
     [SerializeField] private Transform _spawnEnemiesGround;
     [SerializeField] private Transform _spawnEnemiesAir;
 
-    public static int CurrentNumberWave = 1;
-    public static int EnemyAllCountInWave; // всего в волне
-    public static int EnemyCountLeft; //осталось в текущей волне
-    private int _instantiateLeft;// осталось создать врагов
-
-    public static float TimeToNextWave;
-    public int TimerWave;
-
     [SerializeField] private WaveScriptable _wavesLevel;
-    private Wave _currentWave;
 
+    [SerializeField] private int _timeToWave;
+    private int _timeToWaveHelper;
+    private int _currentWave = 0;
     private bool _hasSpawn = false;
     void Awake()
     {
         StartCoroutine(TimerToNextWave());
+        EventAggregator.Subscribe<EnemyDeathEvent>(EnemyDeathChange);
     }
     void Update()
     {
-        if(_hasSpawn && _instantiateLeft > 0)
-        {
-            InstantiateEnemy();
-        }        
-        if(EnemyCountLeft <= 0 && _hasSpawn)
-        {           
-            StartNextLevel();           
-        }
-    }
-    private void StartNextLevel()
-    {
-        if (CurrentNumberWave - 1 >= _wavesLevel.Waves.Length)
-            GameWin.Invoke();
-        else
-        {
-            //for(int i = 0; i < _currentWave.EnemyInstances.Length; i++)
-            //{
-            //    for(int c = 0; c < _currentWave.EnemyInstances[i].Count; c++)
-            //    {
-            //        _spawnEnemyList.Add(_currentWave.EnemyInstances[c].PrefabEnemy);
-            //    }
-            //}
-            //Debug.Log(_spawnEnemyList.Count);
-            StartCoroutine(TimerToNextWave());
-        }
-        TimeToNextWave = 0;
-        CurrentNumberWave++;
-        _hasSpawn = false;        
+        if (_hasSpawn == true)
+            SpawnEnemy();
     }
     IEnumerator TimerToNextWave()
     {
-        WaitNextLevel.Invoke();
         yield return new WaitForSeconds(1f);
-        TimeToNextWave++;        
-        if(TimeToNextWave >= TimerWave)
+        _timeToWaveHelper++;
+        EventAggregator.Post(this, new WaitWaweEvent() { Timer = _timeToWaveHelper, MaxTime = _timeToWave });
+        if (_timeToWaveHelper >= _timeToWave)
         {
-            StartLevel.Invoke();
-            _currentWave = _wavesLevel.Waves[CurrentNumberWave - 1];
-            UpdateCountEnemy();
-            _hasSpawn = true;           
+            UpdateListEnemy();
+            _currentWave++;
             StopCoroutine(TimerToNextWave());
-        }
-        else
-            StartCoroutine(TimerToNextWave());
-    }
-    private void UpdateCountEnemy()
-    {
-        EnemyAllCountInWave = 0;
-        for(int i = 0; i < _currentWave.EnemyInstances.Length; i++)
-        {
-            EnemyAllCountInWave += _currentWave.EnemyInstances[i].Count;
-            EnemyCountLeft = EnemyAllCountInWave;
-            _instantiateLeft = EnemyAllCountInWave;
-        }
-    }
-    private void InstantiateEnemy()
-    {
-        GameObject enemy = Instantiate(_currentWave.EnemyInstances[Random.Range(0, _currentWave.EnemyInstances.Length)].PrefabEnemy);
-        _instantiateLeft--;
-        if (enemy.GetComponent<Enemy>().EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
-        enemy.transform.position = _spawnEnemiesGround.position;
-        else
-            enemy.transform.position = _spawnEnemiesAir.position;
-        
-        _hasSpawn = false;
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
+            EventAggregator.Post(this, new StartWaveEvent() 
+            { 
+                CurrentWaveCount = _currentWave, 
+                AllWave = _wavesLevel.Waves.Length, 
+                CountEnemyInWaveStart = _currentSpawnEnemyList.Count
+            });
+            
             _hasSpawn = true;
         }
+        else
+        StartCoroutine(TimerToNextWave());
+    }
+    private void UpdateListEnemy()
+    {
+        for (int i = 0; i < _wavesLevel.Waves[_currentWave].EnemyInstances.Length; i++)
+        {
+            for (int c = 0; c < _wavesLevel.Waves[_currentWave].EnemyInstances[i].Count; c++)
+            {
+                _currentSpawnEnemyList.Add(_wavesLevel.Waves[_currentWave].EnemyInstances[i].PrefabEnemy);
+            }
+        }
+        _enemyCounter = _currentSpawnEnemyList.Count;
+    }
+    private void SpawnEnemy()
+    {
+        if(_currentSpawnEnemyList.Count > 0 && _hasSpawn)
+        {
+            var enemy = _currentSpawnEnemyList[Random.Range(0, _currentSpawnEnemyList.Count)];
+            var enemyObject = SpawnController.GetObject(enemy);
+            enemyObject.transform.SetParent(null);
+
+            if(enemyObject.GetComponent<Enemy>().EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
+                enemyObject.transform.SetPositionAndRotation(_spawnEnemiesGround.position, _spawnEnemiesGround.rotation);
+            else
+                enemyObject.transform.SetPositionAndRotation(_spawnEnemiesAir.position, _spawnEnemiesAir.rotation);
+            _currentSpawnEnemyList.Remove(enemy);
+            _hasSpawn = false;
+            StartCoroutine(TimeToSpawn());
+        }
+    }
+    private void EnemyDeathChange(object sender, EnemyDeathEvent eventData)
+    {
+        _enemyCounter--;
+        if (_enemyCounter <= 0)
+        {
+            if (_currentWave >= _wavesLevel.Waves.Length)
+            {
+                EventAggregator.Post(this, new GameWinEvent());
+            }
+            else
+            {
+                _timeToWaveHelper = 0;
+                EventAggregator.Post(this, new WaitWaweEvent() { Timer = _timeToWaveHelper, MaxTime = _timeToWave });
+                StartCoroutine(TimerToNextWave());
+            }
+        }
+        else
+        {
+            EventAggregator.Post(this, new UpdateInfoWaveEvent() { EnemiesLeft = _enemyCounter });
+        }
+    }
+    IEnumerator TimeToSpawn()
+    {
+        yield return new WaitForSeconds(Random.Range(0.1f, 3f));
+        _hasSpawn = true;
     }
 }
