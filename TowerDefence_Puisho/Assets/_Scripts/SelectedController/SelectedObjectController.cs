@@ -21,6 +21,7 @@ public class SelectedObjectController : MonoBehaviour
     {
         EventAggregator.Subscribe<SelectedMainBaseEvent>(SelectedMainBaseChange);
         EventAggregator.Subscribe<SelectedTowerEvent>(SelectedTowerChange);
+        EventAggregator.Subscribe<DeselectedAllEvent>(DeselectedAllChange);
     }
     private void SelectedMainBaseChange(object sender, SelectedMainBaseEvent eventData)
     {
@@ -29,5 +30,13 @@ public class SelectedObjectController : MonoBehaviour
     private void SelectedTowerChange(object sender, SelectedTowerEvent eventData)
     {
         CurrentSelectedObject.SelectedIcon.SetActive(true);
+    }
+    private void DeselectedAllChange(object sender, DeselectedAllEvent eventData)
+    {
+        if (CurrentSelectedObject != null)
+        {
+            CurrentSelectedObject.SelectedIcon.SetActive(false);
+            CurrentSelectedObject = null;
+        }
     }
 }

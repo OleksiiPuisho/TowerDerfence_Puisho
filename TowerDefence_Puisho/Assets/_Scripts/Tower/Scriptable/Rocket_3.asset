@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08caf29c060ef844fbabf71f145a862d, type: 3}
+  m_Name: Rocket_3
+  m_EditorClassIdentifier: 
+  TowerLevel: 2
+  HasAttackGroundTarget: 0
+  HasAttackAirTarget: 1
+  NextPrefabTower: {fileID: 0}
+  Name: Rocket
+  MinDamageTower: 30
+  MaxDamageTower: 50
+  SpeedBulletTower: 70
+  SpeedRotation: 9
+  ReloadGunTower: 2
+  RadiusAttack: 20
+  PriceTower: 500
+  PriceUpgrade: 0

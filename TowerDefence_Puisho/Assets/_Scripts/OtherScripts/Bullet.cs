@@ -6,11 +6,14 @@ using Helpers.Events;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private TypeBullet _typeBullet;
+    public TypeBullet TypeBullet;
     [SerializeField] private float _timeToDeactivationBullet;
     [HideInInspector] public float SpeedBullet;
     [HideInInspector] public float DamageBullet;
     [SerializeField] private float _radiusExplosion;
+    [SerializeField] private GameObject _hitParticle;
+    [SerializeField] private GameObject _startParticle;
+    private GameObject _trile;
     public void AutoPutBullet()
     {
         Invoke(nameof(AutoPut), _timeToDeactivationBullet);
@@ -18,14 +21,17 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         transform.Translate(transform.forward * (SpeedBullet * Time.deltaTime), Space.World);
+        if (TypeBullet == TypeBullet.Rocket)
+        {
+            _trile.transform.Translate(transform.forward * (SpeedBullet * Time.deltaTime), Space.World);
+        }
     }
     private void Explosion()
     {
         var colliders = Physics.SphereCastAll(transform.position, _radiusExplosion, transform.forward);
-        Debug.Log(colliders.Length);
         foreach (var collider in colliders)
         {
-            if(collider.collider.TryGetComponent<MainBase>(out var mainBase))
+            if(collider.collider.GetComponent<MainBase>())
             {                
                 MainBase.CurrentHealthBase -= DamageBullet;
             }
@@ -33,8 +39,8 @@ public class Bullet : MonoBehaviour
             {
                 if (enemy.EnemyScriptable.TypeEnemy == TypeEnemy.Air)
                 {
-                    float distance = Vector3.Distance(transform.position, enemy.transform.position);
-                    float distanceDamage = distance * 100 / DamageBullet;
+                    float distanceNormalize = Mathf.Abs((Vector3.Distance(transform.position, enemy.transform.position) / _radiusExplosion - 1f) * 100);
+                    float distanceDamage = DamageBullet * distanceNormalize / 100;
                     enemy.CurrentHealthEnemy -= distanceDamage;
                 }
             }
@@ -43,13 +49,14 @@ public class Bullet : MonoBehaviour
     private void AutoPut()
     {
         SpawnController.PutObject(gameObject);
+        gameObject.layer = LayerMask.NameToLayer("Bullet");
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {       
-        if (_typeBullet == TypeBullet.Bullet)
+        if (TypeBullet == TypeBullet.Bullet)
         {
-            if (gameObject.layer == LayerMask.NameToLayer("BulletEnemy") && collision.gameObject.GetComponent<MainBase>())
+            if (gameObject.layer == LayerMask.NameToLayer("BulletEnemy") && collider.gameObject.GetComponent<MainBase>())
             {
                 MainBase.CurrentHealthBase -= DamageBullet;
                 EventAggregator.Post(this, new UpdateInfoMainBaseEvent() 
@@ -58,20 +65,26 @@ public class Bullet : MonoBehaviour
                     MaxHealthBase = MainBase.CurrentLevel.MaxHealth
                 });
             }
-            if (collision.gameObject.TryGetComponent<Enemy>(out var enemy))
+            if (collider.gameObject.TryGetComponent<Enemy>(out var enemy))
             {
                 enemy.CurrentHealthEnemy -= DamageBullet;
             }
         }
-        else if (_typeBullet == TypeBullet.Rocket)
+        else if (TypeBullet == TypeBullet.Rocket)
         {
             Explosion();
         }
-        SpawnController.PutObject(gameObject);
+        AutoPut();
     }
     private void OnEnable()
     {
-        
+        if(TypeBullet == TypeBullet.Rocket)
+        {
+            _trile = SpawnController.GetObject(_startParticle);
+            _trile.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            _trile.SetActive(true);
+            _trile.GetComponent<AutoPutObject>().AutoPut();
+        }
     }
 }
 public enum TypeBullet { Bullet, Rocket}

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Helicopter
   m_EditorClassIdentifier: 
   TypeEnemy: 1
-  MaxHealthEnemy: 300
-  MinDamage: 5
-  MaxDamage: 12
-  SpeedBulletEneny: 0.7
-  ReloadGun: 3
+  MaxHealthEnemy: 250
+  MinDamage: 3
+  MaxDamage: 7
+  SpeedBulletEneny: 50
+  ReloadGun: 2
   RadiusShooting: 12
-  Reward: 10
+  Reward: 65

@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ac34ab42336e14c2393b35ce459ec2c9, type: 3}
+        m_Texture: {fileID: 2800000, guid: b2321b12dddb84659b9608663218e77b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseDissolve:
@@ -32,8 +32,8 @@ Material:
     m_Floats:
     - _Ammount: 0
     - _AmmountEmission: 1
-    - _Glossiness: 0.5
-    - _Metallic: 0.3
+    - _Glossiness: 0
+    - _Metallic: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 0.18000284, b: 0, a: 1}

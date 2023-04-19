@@ -72,8 +72,12 @@ public class LevelHUD : MonoBehaviour
     }
     private void SelectedTower(object sender, SelectedTowerEvent eventData)
     {
-        _levelMaxButton.gameObject.SetActive(false);
         UpdateButtons();
+        _contentMainBase.gameObject.SetActive(false);
+        _contentTower.gameObject.SetActive(true);
+
+        _levelMaxButton.gameObject.SetActive(false);
+        
         _destroyButton.gameObject.SetActive(true);
 
         _nameTower.text = eventData.Name;
@@ -85,6 +89,9 @@ public class LevelHUD : MonoBehaviour
     }
     private void SelectedMainBase(object sender, SelectedMainBaseEvent eventData)
     {
+        _contentMainBase.gameObject.SetActive(true);
+        _contentTower.gameObject.SetActive(false);
+
         _levelMaxButton.gameObject.SetActive(false);
         UpdateButtons();
         _destroyButton.gameObject.SetActive(false);
@@ -100,10 +107,11 @@ public class LevelHUD : MonoBehaviour
 
         EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = tower.TowerScriptable.PriceTower / 2 });
         EventAggregator.Post(this, new DeselectedAllEvent());
-        Destroy(SelectedObjectController.CurrentSelectedObject.gameObject);
+        Destroy(tower.gameObject);
     }
     private void UpdateButtons()
     {
+        _upgradeButton.onClick.RemoveAllListeners();
         _panelActiveObject.SetActive(true);
         _panelTowersBuild.SetActive(false);
         if(SelectedObjectController.CurrentSelectedObject.TypeObject == TypeObject.MainBase)

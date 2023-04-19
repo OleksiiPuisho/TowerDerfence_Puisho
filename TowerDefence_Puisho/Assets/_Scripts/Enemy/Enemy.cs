@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent _agent;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private Transform[] _spawnBullet;
     [SerializeField] private Transform _mainBaseTarget;
     [SerializeField] private string _layerBullet;
     private bool _hasAttack;
@@ -81,14 +81,20 @@ public class Enemy : MonoBehaviour
     {
         if (_hasAttack)
         {
-            var bulletObject = SpawnController.GetObject(_bulletPrefab);
-            var bullet = bulletObject.GetComponent<Bullet>();
-            bullet.DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage);
-            bullet.SpeedBullet = EnemyScriptable.SpeedBulletEneny;
-            bullet.transform.position = _spawnBullet.position;
-            bullet.transform.LookAt(_mainBaseTarget.transform);
-            bullet.gameObject.layer = LayerMask.NameToLayer(_layerBullet);
-            bullet.gameObject.SetActive(true);
+            for (int i = 0; i < _spawnBullet.Length; i++)
+            {
+                _spawnBullet[i].LookAt(target.transform);
+                var bulletObject = SpawnController.GetObject(_bulletPrefab);
+                bulletObject.layer = LayerMask.NameToLayer(_layerBullet);
+                var bullet = bulletObject.GetComponent<Bullet>();
+                bulletObject.transform.SetPositionAndRotation(_spawnBullet[i].position, _spawnBullet[i].rotation);
+
+                bullet.DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage);
+                bullet.SpeedBullet = EnemyScriptable.SpeedBulletEneny;
+
+                bullet.gameObject.SetActive(true);
+                bullet.AutoPutBullet();
+            }
 
             _hasAttack = false;
             StartCoroutine(ReloadCorutine());

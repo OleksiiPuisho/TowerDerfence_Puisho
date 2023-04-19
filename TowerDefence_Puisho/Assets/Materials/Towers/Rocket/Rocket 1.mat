@@ -32,8 +32,8 @@ Material:
     m_Floats:
     - _Ammount: 0
     - _AmmountEmission: 1
-    - _Glossiness: 0.5
-    - _Metallic: 0.3
+    - _Glossiness: 0
+    - _Metallic: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 0.18000284, b: 0, a: 1}

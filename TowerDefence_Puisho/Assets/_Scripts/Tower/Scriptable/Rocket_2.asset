@@ -15,14 +15,14 @@ MonoBehaviour:
   TowerLevel: 1
   HasAttackGroundTarget: 0
   HasAttackAirTarget: 1
-  NextPrefabTower: {fileID: 4674743552813131360, guid: 5c6b5c61b27a5bf4d967bb5e58c54a52, type: 3}
+  NextPrefabTower: {fileID: 5354550900402083945, guid: 265e72a627e8121409d6f3a005854a4c, type: 3}
   Name: Rocket
   MaxHealth: 600
   MinDamageTower: 20
-  MaxDamageTower: 35
-  SpeedBulletTower: 3
-  SpeedRotation: 5
-  ReloadGunTower: 3
-  RadiusAttack: 8
+  MaxDamageTower: 45
+  SpeedBulletTower: 70
+  SpeedRotation: 8
+  ReloadGunTower: 2.5
+  RadiusAttack: 14
   PriceTower: 300
-  PriceUpgrade: 800
+  PriceUpgrade: 500

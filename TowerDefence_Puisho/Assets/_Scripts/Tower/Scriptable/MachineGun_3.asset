@@ -15,9 +15,8 @@ MonoBehaviour:
   TowerLevel: 2
   HasAttackGroundTarget: 1
   HasAttackAirTarget: 1
-  NextPrefabTower: {fileID: 7979552494319624223, guid: 26588e2f75f2b524daaeee635eed2929, type: 3}
+  NextPrefabTower: {fileID: 0}
   Name: Machine Gun
-  MaxHealth: 500
   MinDamageTower: 7
   MaxDamageTower: 15
   SpeedBulletTower: 50

@@ -2749,6 +2749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1862456788979733499}
   - component: {fileID: 7034450174275457765}
+  - component: {fileID: 1117287050}
   m_Layer: 6
   m_Name: Level_1
   m_TagString: Untagged
@@ -2830,18 +2831,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: BuildPointsController, Assembly-CSharp
-          m_MethodName: DeselectedBuildPoint
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+--- !u!65 &1117287050
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862456788979371995}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 150, y: 1, z: 150}
+  m_Center: {x: -34.2, y: 0, z: 0}
 --- !u!1 &2772524951479683101
 GameObject:
   m_ObjectHideFlags: 0
@@ -2943,6 +2945,7 @@ GameObject:
   - component: {fileID: 7908302437760984431}
   - component: {fileID: 1323303154}
   - component: {fileID: 5953341977778691753}
+  - component: {fileID: 297773700}
   m_Layer: 6
   m_Name: ROAD
   m_TagString: Untagged
@@ -3029,3 +3032,32 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: af1b03a9248e44d4b81a2d6d8ddc58c5, type: 2}
+--- !u!114 &297773700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6125147151317454146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -1923039037
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 65
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 2d5c73864580e0e4283f8dff5cd8a58e, type: 2}

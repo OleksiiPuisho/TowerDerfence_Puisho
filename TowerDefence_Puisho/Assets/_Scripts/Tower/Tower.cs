@@ -6,23 +6,22 @@ using Helpers.Events;
 
 public class Tower : MonoBehaviour
 {
+    [SerializeField] internal AudioSource _audioSource;
     public TowerScriptable TowerScriptable;
     public TowerLevel CurrentTowerLevel;
-    public float CurrentHealthTower;
-    private StateTower _currentState;
-    private Enemy _targetAttack;
+    internal StateTower _currentState;
+    internal Enemy _targetAttack;
 
-    [SerializeField] private GameObject _prefabBullet;
-    [SerializeField] private GameObject _prefabParticleShot;
-    [SerializeField] private Transform _spawnBullet;
-    [SerializeField] private Transform _turret;
+    [SerializeField] internal GameObject _prefabBullet;
+    [SerializeField] internal Transform[] _spawnBullet;
+    [SerializeField] internal Transform _turret;
 
-    private bool _hasAttack = false;
-    private bool _lookToTarget = false;
+    internal bool _hasAttack = false;
+    internal bool _lookToTarget = false;
     void Start()
     {
         StartCoroutine(TowerReloadCorutine());
-        CurrentHealthTower = TowerScriptable.MaxHealth;
+        AudioManager.InstanceAudio.PlaySfx(SfxType.BuildTower, _audioSource);
     }
 
     void Update()
@@ -100,7 +99,7 @@ public class Tower : MonoBehaviour
             {
                 foreach (Enemy enemy in WaveController.EnemiesGroundList)
                 {
-                    if (Vector3.Distance(transform.position, enemy.transform.position) < TowerScriptable.RadiusAttack)
+                    if (Vector3.Distance(transform.position, enemy.transform.position) <= TowerScriptable.RadiusAttack)
                     {
                         _targetAttack = enemy;
                         UpdateState(StateTower.Attack);
@@ -114,7 +113,7 @@ public class Tower : MonoBehaviour
             {
                 foreach (Enemy enemy in WaveController.EnemiesAirList)
                 {
-                    if (Vector3.Distance(transform.position, enemy.transform.position) < TowerScriptable.RadiusAttack)
+                    if (Vector3.Distance(transform.position, enemy.transform.position) <= TowerScriptable.RadiusAttack)
                     {
                         _targetAttack = enemy;
                         UpdateState(StateTower.Attack);
@@ -131,17 +130,23 @@ public class Tower : MonoBehaviour
             RotateTower();
             if (_hasAttack && _lookToTarget)
             {
-                _spawnBullet.LookAt(_targetAttack.transform);
-                var bulletObject = SpawnController.GetObject(_prefabBullet);
-                var bullet = bulletObject.GetComponent<Bullet>();
-                bulletObject.transform.SetPositionAndRotation(_spawnBullet.position, _spawnBullet.rotation);
+                for (int i = 0; i < _spawnBullet.Length; i++)
+                {
+                    _spawnBullet[i].LookAt(_targetAttack.transform);
+                    var bulletObject = SpawnController.GetObject(_prefabBullet);
+                    var bullet = bulletObject.GetComponent<Bullet>();
+                    bulletObject.transform.SetPositionAndRotation(_spawnBullet[i].position, _spawnBullet[i].rotation);
 
-                bullet.DamageBullet = Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower);
-                bullet.SpeedBullet = TowerScriptable.SpeedBulletTower;
-                
+                    bullet.DamageBullet = Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower);
+                    bullet.SpeedBullet = TowerScriptable.SpeedBulletTower;
 
-                bullet.gameObject.SetActive(true);
-                bullet.AutoPutBullet();
+                    bullet.gameObject.SetActive(true);
+                    bullet.AutoPutBullet();
+                    if (bullet.TypeBullet == TypeBullet.Bullet)
+                        AudioManager.InstanceAudio.PlaySfx(SfxType.Bullet, _audioSource);
+                    else if (bullet.TypeBullet == TypeBullet.Rocket)
+                        AudioManager.InstanceAudio.PlaySfx(SfxType.RocketTrail, _audioSource);
+                }
 
                 _hasAttack = false;
                 StartCoroutine(TowerReloadCorutine());
@@ -178,7 +183,7 @@ public class Tower : MonoBehaviour
             }
         }
     }
-    IEnumerator TowerReloadCorutine()
+    internal IEnumerator TowerReloadCorutine()
     {
         yield return new WaitForSeconds(TowerScriptable.ReloadGunTower);
         _hasAttack = true;

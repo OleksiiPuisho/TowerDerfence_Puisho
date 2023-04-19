@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d290179224b26f4db042af9a830704f, type: 3}
+  m_Name: HoverTank
+  m_EditorClassIdentifier: 
+  TypeEnemy: 0
+  MaxHealthEnemy: 600
+  MinDamage: 12
+  MaxDamage: 28
+  SpeedBulletEneny: 50
+  ReloadGun: 5
+  RadiusShooting: 10
+  Reward: 150

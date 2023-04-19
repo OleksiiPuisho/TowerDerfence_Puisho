@@ -14,17 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Waves:
   - EnemyInstances:
-    - Count: 0
+    - Count: 15
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
     - Count: 10
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
-  - EnemyInstances:
-    - Count: 10
-      PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
     - Count: 5
-      PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
+      PrefabEnemy: {fileID: 3439666878555795149, guid: 38c9681e7999c594aa5ef64fcd6d0baf, type: 3}
   - EnemyInstances:
-    - Count: 30
+    - Count: 20
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
-    - Count: 8
+    - Count: 15
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
+    - Count: 5
+      PrefabEnemy: {fileID: 3439666878555795149, guid: 38c9681e7999c594aa5ef64fcd6d0baf, type: 3}
+  - EnemyInstances:
+    - Count: 40
+      PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
+    - Count: 20
+      PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
+    - Count: 10
+      PrefabEnemy: {fileID: 3439666878555795149, guid: 38c9681e7999c594aa5ef64fcd6d0baf, type: 3}

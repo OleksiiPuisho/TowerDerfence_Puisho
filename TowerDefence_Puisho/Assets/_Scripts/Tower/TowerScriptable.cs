@@ -10,7 +10,6 @@ public class TowerScriptable : ScriptableObject
     public bool HasAttackAirTarget;
     public GameObject NextPrefabTower;
     public string Name;
-    public float MaxHealth;
     public float MinDamageTower;
     public float MaxDamageTower;
     public float SpeedBulletTower;

@@ -11,7 +11,10 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
     public TypeObject TypeObject;
     public void OnPointerClick(PointerEventData eventData)
     {
-        EventAggregator.Post(this, new DeselectedAllEvent());
+        if (SelectedObjectController.CurrentSelectedObject != null)
+        {
+            SelectedObjectController.CurrentSelectedObject.SelectedIcon.SetActive(false);
+        }
         SelectedObjectController.CurrentSelectedObject = this;
         if (TypeObject == TypeObject.MainBase)
             EventAggregator.Post(this, new SelectedMainBaseEvent()

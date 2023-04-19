@@ -98,11 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906dfc548415c764ea6edde8bf6c6d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _typeBullet: 1
-  _timeToDeactivationBullet: 10
+  TypeBullet: 1
+  _timeToDeactivationBullet: 5
   SpeedBullet: 0
   DamageBullet: 0
-  _radiusExplosion: 5
+  _radiusExplosion: 10
+  _hitParticle: {fileID: 6898866525728968028, guid: 287405abd2f30fe4e8238ad05dee040a, type: 3}
+  _startParticle: {fileID: 322814720654920563, guid: bffde2eb0ce2194448fd1471abec95d8, type: 3}
 --- !u!54 &5464976222212545999
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -117,8 +119,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!136 &9047436332318571210
 CapsuleCollider:
   m_ObjectHideFlags: 0

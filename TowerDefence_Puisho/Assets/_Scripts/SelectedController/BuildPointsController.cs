@@ -12,12 +12,15 @@ public class BuildPointsController : MonoBehaviour
     [Header("Prefabs Towers")]
     [SerializeField] private GameObject _prefabMachineGun;
     [SerializeField] private GameObject _prefabRocket;
+    [SerializeField] private GameObject _prefabLaser;
 
     [Header("Buttons for Build")]
     [SerializeField] private Button _machineGunButton;
     [SerializeField] private TMP_Text _priceMachineGun;
     [SerializeField] private Button _rocketButton;
     [SerializeField] private TMP_Text _priceRocket;
+    [SerializeField] private Button _laserButton;
+    [SerializeField] private TMP_Text _priceLaser;
     public void DeselectedBuildPoint()
     {
         if (ActivePoint != null)
@@ -31,11 +34,13 @@ public class BuildPointsController : MonoBehaviour
     {
         _priceMachineGun.text = _prefabMachineGun.GetComponent<Tower>().TowerScriptable.PriceTower.ToString();
         _priceRocket.text = _prefabRocket.GetComponent<Tower>().TowerScriptable.PriceTower.ToString();
+        _priceLaser.text = _prefabLaser.GetComponent<LaserTower>().TowerScriptable.PriceTower.ToString();
 
         EventAggregator.Subscribe<SelectedBuildPointEvent>(SelectedPoint);
         EventAggregator.Subscribe<DeselectedAllEvent>(Deselected);
         _machineGunButton.onClick.AddListener(BuildMachineGun);
         _rocketButton.onClick.AddListener(BuildRocket);
+        _laserButton.onClick.AddListener(BuildLaser);
     } 
     private void SelectedPoint(object sender, SelectedBuildPointEvent eventData)
     {
@@ -66,6 +71,14 @@ public class BuildPointsController : MonoBehaviour
         {
             var obj = InstantiateTower(_prefabRocket);
             EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<Tower>().TowerScriptable.PriceTower });
+        }
+    }
+    private void BuildLaser()
+    {
+        if (_prefabLaser.GetComponent<LaserTower>().TowerScriptable.PriceTower <= GameController.Money)
+        {
+            var obj = InstantiateTower(_prefabLaser);
+            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<LaserTower>().TowerScriptable.PriceTower });
         }
     }
     private void Deselected(object sender, DeselectedAllEvent eventData)

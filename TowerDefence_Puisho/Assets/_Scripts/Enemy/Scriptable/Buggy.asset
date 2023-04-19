@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Buggy
   m_EditorClassIdentifier: 
   TypeEnemy: 0
-  MaxHealthEnemy: 150
-  MinDamage: 3
-  MaxDamage: 7
-  SpeedBulletEneny: 10
-  ReloadGun: 1
+  MaxHealthEnemy: 100
+  MinDamage: 1
+  MaxDamage: 3
+  SpeedBulletEneny: 50
+  ReloadGun: 0.5
   RadiusShooting: 8
-  Reward: 10
+  Reward: 25
