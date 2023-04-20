@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7935432255835594247}
   - component: {fileID: 7935432255838985767}
   - component: {fileID: 7935432255837887719}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HoverTank_Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}

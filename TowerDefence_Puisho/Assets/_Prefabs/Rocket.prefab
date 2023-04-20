@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1829933140125375607}
   - component: {fileID: 1829933140124572759}
   - component: {fileID: 1829933140123475607}
-  - component: {fileID: 5945761443176617016}
   - component: {fileID: 5464976222212545999}
   - component: {fileID: 9047436332318571210}
+  - component: {fileID: -6323020965348596833}
   m_Layer: 7
   m_Name: Rocket
   m_TagString: Untagged
@@ -86,25 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5945761443176617016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829933140125466711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 906dfc548415c764ea6edde8bf6c6d69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TypeBullet: 1
-  _timeToDeactivationBullet: 5
-  SpeedBullet: 0
-  DamageBullet: 0
-  _radiusExplosion: 10
-  _hitParticle: {fileID: 6898866525728968028, guid: 287405abd2f30fe4e8238ad05dee040a, type: 3}
-  _startParticle: {fileID: 322814720654920563, guid: bffde2eb0ce2194448fd1471abec95d8, type: 3}
 --- !u!54 &5464976222212545999
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,3 +116,23 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 2
   m_Center: {x: -0.000000044703484, y: 0.000000009313226, z: -0.0011129826}
+--- !u!114 &-6323020965348596833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829933140125466711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ec7d6bc8753414ca3a54c5cb4b4aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToDeactivationBullet: 5
+  SpeedBullet: 0
+  DamageBullet: 0
+  _hitParticle: {fileID: 6898866525728968028, guid: 287405abd2f30fe4e8238ad05dee040a, type: 3}
+  _startParticle: {fileID: 322814720654920563, guid: bffde2eb0ce2194448fd1471abec95d8, type: 3}
+  _defaultLayerBullet: Bullet
+  _enemyLayerBullet: BulletEnemy
+  _radiusExplosion: 7

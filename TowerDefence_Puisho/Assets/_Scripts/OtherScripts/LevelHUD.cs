@@ -9,11 +9,13 @@ using Helpers.Events;
 public class LevelHUD : MonoBehaviour
 {
     [Header("Links Main")]
+    [SerializeField] private Canvas _canvasHUD;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private TMP_Text _healthSliderText;
     [SerializeField] private TMP_Text _moneyText;
     [SerializeField] private GameObject _panelTowersBuild;
     [SerializeField] private TMP_Text _notMoneyText;
+    [SerializeField] private TMP_Text _levelMaxText;
 
     [Header("Wave UI")]
     [SerializeField] private Slider _durationToNextLevel;
@@ -34,7 +36,6 @@ public class LevelHUD : MonoBehaviour
     [SerializeField] private Transform _contentTower;
 
     [SerializeField] private Button _upgradeButton;
-    [SerializeField] private TMP_Text _levelMaxButton;
     [SerializeField] private Button _destroyButton;
     //MainBase Content
     [SerializeField] private TMP_Text _levelBase;
@@ -46,6 +47,9 @@ public class LevelHUD : MonoBehaviour
     [SerializeField] private TMP_Text _radiusTower;
     [SerializeField] private TMP_Text _rateOfFire;
     [SerializeField] private TMP_Text _priceUpgradeTower;
+    [Header("UI End Game")]
+    [SerializeField] private Canvas _gameOverCanvas;
+    [SerializeField] private Canvas _gameWinCanvas;
     private void Awake()
     {       
         EventAggregator.Subscribe<SelectedTowerEvent>(SelectedTower);
@@ -59,24 +63,30 @@ public class LevelHUD : MonoBehaviour
         EventAggregator.Subscribe<StartWaveEvent>(StartWaveChange);
         EventAggregator.Subscribe<UpdateInfoWaveEvent>(UpdateInfoWaveChange);
         EventAggregator.Subscribe<WaitWaweEvent>(WaitWaweChange);
+        EventAggregator.Subscribe<NotEnoughMoneyEvent>(NotEnoughMoneyChange);
+        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
+        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
     }
     void Start()
     {
         _startLevelButton.onClick.AddListener(StartWaveButton);
         _destroyButton.onClick.AddListener(DestroyButton);
-        _notMoneyText.gameObject.SetActive(false);
     }
     private void LevelMaxChange(object sender, LevelMaxEvent eventData)
     {
-        _levelMaxButton.gameObject.SetActive(true);
+        _upgradeButton.interactable = false;
+        if(eventData.IsUpgreded)
+        _levelMaxText.GetComponent<Animator>().Play("Hide");
+    }
+    private void NotEnoughMoneyChange(object sender, NotEnoughMoneyEvent eventData)
+    {
+        _notMoneyText.GetComponent<Animator>().Play("Hide");
     }
     private void SelectedTower(object sender, SelectedTowerEvent eventData)
     {
         UpdateButtons();
         _contentMainBase.gameObject.SetActive(false);
         _contentTower.gameObject.SetActive(true);
-
-        _levelMaxButton.gameObject.SetActive(false);
         
         _destroyButton.gameObject.SetActive(true);
 
@@ -92,7 +102,6 @@ public class LevelHUD : MonoBehaviour
         _contentMainBase.gameObject.SetActive(true);
         _contentTower.gameObject.SetActive(false);
 
-        _levelMaxButton.gameObject.SetActive(false);
         UpdateButtons();
         _destroyButton.gameObject.SetActive(false);
         _levelBase.text = eventData.Level;
@@ -111,6 +120,7 @@ public class LevelHUD : MonoBehaviour
     }
     private void UpdateButtons()
     {
+        _upgradeButton.interactable = true;
         _upgradeButton.onClick.RemoveAllListeners();
         _panelActiveObject.SetActive(true);
         _panelTowersBuild.SetActive(false);
@@ -174,6 +184,10 @@ public class LevelHUD : MonoBehaviour
     }
     private void StartGameUI(object sender, StartGameEvent eventData)
     {
+        _canvasHUD.gameObject.SetActive(true);
+        _gameOverCanvas.gameObject.SetActive(false);
+        _gameWinCanvas.gameObject.SetActive(false);
+
         _panelActiveObject.SetActive(false);
         _panelTowersBuild.SetActive(false);
 
@@ -183,5 +197,23 @@ public class LevelHUD : MonoBehaviour
         _healthSlider.value = MainBase.CurrentHealthBase;
 
         _healthSliderText.text = MainBase.CurrentHealthBase + " / " + MainBase.CurrentLevel.MaxHealth;
+    }
+    private void GameOverChange(object sender, GameOverEvent eventData)
+    {
+        Invoke(nameof(InvokeCanvasGameOver), 3f);
+    }
+    private void InvokeCanvasGameOver()
+    {
+        _canvasHUD.gameObject.SetActive(false);
+        _gameOverCanvas.gameObject.SetActive(true);
+    }
+    private void GameWinChange(object sender, GameWinEvent eventData)
+    {
+        Invoke(nameof(InvokeCanvasGameWin), 3f);
+    }
+    private void InvokeCanvasGameWin()
+    {
+        _canvasHUD.gameObject.SetActive(false);
+        _gameWinCanvas.gameObject.SetActive(true);
     }
 }

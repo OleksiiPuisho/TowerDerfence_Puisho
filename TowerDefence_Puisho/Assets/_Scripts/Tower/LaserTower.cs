@@ -9,6 +9,7 @@ public class LaserTower : Tower
     private void Start()
     {
         StartCoroutine(TowerReloadCorutine());
+        AudioManager.InstanceAudio.PlaySfx(SfxType.BuildTower, _audioSource);
     }
     private void Update()
     {
@@ -70,9 +71,9 @@ public class LaserTower : Tower
                 _spawnBullet[0].transform.LookAt(_targetAttack.transform);
                 if (Physics.Raycast(_spawnBullet[0].position, _spawnBullet[0].forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
                 {
-                    if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
+                    if (hit.collider.TryGetComponent<IDamageble>(out var damageble))
                     {
-                        enemy.CurrentHealthEnemy -= Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower);
+                        damageble.SetDamage(Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower));
                         _hasAttack = false;
                         StartCoroutine(TowerReloadCorutine());
                     }

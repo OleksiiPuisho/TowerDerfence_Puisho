@@ -21,7 +21,7 @@ namespace Helpers.Events
     }
     public class LevelMaxEvent
     {
-        
+        public bool IsUpgreded;
     }
     public class NotEnoughMoneyEvent
     {

@@ -115,7 +115,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 2
+  m_CollisionDetection: 1
 --- !u!114 &8831564668854228286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,8 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906dfc548415c764ea6edde8bf6c6d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _typeBullet: 0
   _timeToDeactivationBullet: 5
   SpeedBullet: 0
   DamageBullet: 0
-  _radiusExplosion: 0
+  _hitParticle: {fileID: 4212634301824367299, guid: dfb90152af78445449279fdc586b5caa, type: 3}
+  _startParticle: {fileID: 4670817340059732312, guid: 786f0184ff378b64688758cef251acd4, type: 3}
+  _defaultLayerBullet: Bullet
+  _enemyLayerBullet: BulletEnemy

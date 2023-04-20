@@ -11,9 +11,10 @@ public enum EnemyState
     Movement,
     AttackMainBase
 }
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageble
 {
     private NavMeshAgent _agent;
+    private AudioSource _audioSource;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform[] _spawnBullet;
@@ -21,16 +22,30 @@ public class Enemy : MonoBehaviour
     [SerializeField] private string _layerBullet;
     private bool _hasAttack;
     public EnemyScriptable EnemyScriptable;
-    public float CurrentHealthEnemy;
+    private float _currentHealthEnemy;
     
     private EnemyState _currentEnemyState;
+    public void SetDamage(float damageCount)
+    {
+        _currentHealthEnemy -= damageCount;
+
+        if(_currentHealthEnemy <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        _healthSlider.value = _currentHealthEnemy;
+        if (_currentHealthEnemy < EnemyScriptable.MaxHealthEnemy && _healthSlider.gameObject.activeSelf == false)
+            _healthSlider.gameObject.SetActive(true);
+    }
     void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _mainBaseTarget = FindObjectOfType<MainBase>().transform;
         _agent = GetComponent<NavMeshAgent>();
         StartCoroutine(ReloadCorutine());
         _currentEnemyState = EnemyState.Movement;
-        CurrentHealthEnemy = EnemyScriptable.MaxHealthEnemy;
+        _currentHealthEnemy = EnemyScriptable.MaxHealthEnemy;
         _healthSlider.maxValue = EnemyScriptable.MaxHealthEnemy;
         _healthSlider.value = EnemyScriptable.MaxHealthEnemy;
         _healthSlider.gameObject.SetActive(false);
@@ -39,15 +54,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         UpdateStateAgent(_currentEnemyState);
-        if (CurrentHealthEnemy <= 0)
+        if (_currentHealthEnemy <= 0)
             Destroy(gameObject);
     }
     private void UpdateStateAgent(EnemyState enemyState)
     {
-        _currentEnemyState = enemyState;
-        _healthSlider.value = CurrentHealthEnemy;
-        if (CurrentHealthEnemy < EnemyScriptable.MaxHealthEnemy && _healthSlider.gameObject.activeSelf == false)
-            _healthSlider.gameObject.SetActive(true);
+        _currentEnemyState = enemyState;       
         switch (enemyState)
         {
             case EnemyState.Movement:
@@ -94,6 +106,11 @@ public class Enemy : MonoBehaviour
 
                 bullet.gameObject.SetActive(true);
                 bullet.AutoPutBullet();
+
+                if (bullet.GetComponent<Bullet>())
+                    AudioManager.InstanceAudio.PlaySfx(SfxType.Bullet, _audioSource);
+                else if (bullet.GetComponent<RocketBehavior>())
+                    AudioManager.InstanceAudio.PlaySfx(SfxType.RocketTrail, _audioSource);
             }
 
             _hasAttack = false;

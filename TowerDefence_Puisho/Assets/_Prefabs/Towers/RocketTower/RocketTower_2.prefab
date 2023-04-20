@@ -74,10 +74,10 @@ GameObject:
   - component: {fileID: 4674743552810072672}
   - component: {fileID: 4674743552811202720}
   - component: {fileID: 6765660913956589741}
-  - component: {fileID: 8402229174678590313}
+  - component: {fileID: -1180986709280449719}
+  - component: {fileID: 4511324347009763124}
   - component: {fileID: 2312657855094619974}
   - component: {fileID: 5936494414915650633}
-  - component: {fileID: -1180986709280449719}
   m_Layer: 0
   m_Name: RocketTower_2
   m_TagString: Untagged
@@ -165,56 +165,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8402229174678590313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4674743552813131360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27128aff51019b34f9d02aecd091698a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioSource: {fileID: -1180986709280449719}
-  TowerScriptable: {fileID: 11400000, guid: 5663d13d204f74c41b1de9d1e43dac34, type: 2}
-  CurrentTowerLevel: 1
-  CurrentHealthTower: 1
-  _prefabBullet: {fileID: 1829933140125466711, guid: 47e7e50060d49c5419c83e9f37b283d8, type: 3}
-  _spawnBullet:
-  - {fileID: 723431740315347281}
-  - {fileID: 5000658037506550177}
-  - {fileID: 2882943131909979009}
-  _turret: {fileID: 853456826726885675}
---- !u!114 &2312657855094619974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4674743552813131360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dff8ee2784681d446a7cb220119a901c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SelectedIcon: {fileID: 6367700937233273674}
-  TypeObject: 0
---- !u!114 &5936494414915650633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4674743552813131360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00931cab8eb45834da802c8ebaf0f4bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speedRate: 0.9
-  Dissolve: 0
 --- !u!82 &-1180986709280449719
 AudioSource:
   m_ObjectHideFlags: 0
@@ -224,7 +174,7 @@ AudioSource:
   m_GameObject: {fileID: 4674743552813131360}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3021669405841839045, guid: 6e38630d87de0da4a92cdc391194aedf, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -311,6 +261,55 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4511324347009763124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674743552813131360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e97dfb88123a04e4282771db277d6b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: -1180986709280449719}
+  TowerScriptable: {fileID: 11400000, guid: 5663d13d204f74c41b1de9d1e43dac34, type: 2}
+  CurrentTowerLevel: 1
+  _prefabBullet: {fileID: 1829933140125466711, guid: 47e7e50060d49c5419c83e9f37b283d8, type: 3}
+  _spawnBullet:
+  - {fileID: 723431740315347281}
+  - {fileID: 5000658037506550177}
+  - {fileID: 2882943131909979009}
+  _turret: {fileID: 853456826726885675}
+--- !u!114 &2312657855094619974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674743552813131360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff8ee2784681d446a7cb220119a901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedIcon: {fileID: 6367700937233273674}
+  TypeObject: 0
+--- !u!114 &5936494414915650633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674743552813131360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00931cab8eb45834da802c8ebaf0f4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedRate: 0.9
+  Dissolve: 0
 --- !u!1 &5614387207750946271
 GameObject:
   m_ObjectHideFlags: 0

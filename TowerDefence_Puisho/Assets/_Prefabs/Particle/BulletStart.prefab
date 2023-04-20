@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4667522181370133484}
   - component: {fileID: 4762204489393761898}
   - component: {fileID: 4761072606771700772}
+  - component: {fileID: 8440435809957809023}
   m_Layer: 0
   m_Name: BulletStart
   m_TagString: Untagged
@@ -4796,3 +4797,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8440435809957809023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4670817340059732312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b902491eae65f344a14df0358206253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _autoPutTime: 1

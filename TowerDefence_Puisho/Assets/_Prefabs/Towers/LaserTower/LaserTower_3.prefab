@@ -88,10 +88,10 @@ GameObject:
   - component: {fileID: 4584617968798602821}
   - component: {fileID: 4584617968797504645}
   - component: {fileID: 5190291252737018042}
+  - component: {fileID: 7001195378635915094}
   - component: {fileID: 7564670093322051684}
   - component: {fileID: 3421391944604161109}
   - component: {fileID: 1662472645425918166}
-  - component: {fileID: 7001195378635915094}
   m_Layer: 0
   m_Name: LaserTower_3
   m_TagString: Untagged
@@ -179,53 +179,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.8136878, y: 0.5009834, z: 1.8136879}
   m_Center: {x: 0.015138775, y: 0.2504917, z: -0.00002104044}
---- !u!114 &7564670093322051684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4584617968799763015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa6288bbccb31dd4da09e7ed49064937, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioSource: {fileID: 7001195378635915094}
-  TowerScriptable: {fileID: 11400000, guid: 51febe304edffce42b7e214c7d5328c5, type: 2}
-  CurrentTowerLevel: 2
-  _prefabBullet: {fileID: 1519924648624302573}
-  _spawnBullet:
-  - {fileID: 2652171902158702167}
-  _turret: {fileID: 8239203647191380177}
---- !u!114 &3421391944604161109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4584617968799763015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00931cab8eb45834da802c8ebaf0f4bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speedRate: 0.9
-  Dissolve: 0
---- !u!114 &1662472645425918166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4584617968799763015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dff8ee2784681d446a7cb220119a901c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SelectedIcon: {fileID: 6878330178005404450}
-  TypeObject: 0
 --- !u!82 &7001195378635915094
 AudioSource:
   m_ObjectHideFlags: 0
@@ -322,6 +275,53 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7564670093322051684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584617968799763015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6288bbccb31dd4da09e7ed49064937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 7001195378635915094}
+  TowerScriptable: {fileID: 11400000, guid: 51febe304edffce42b7e214c7d5328c5, type: 2}
+  CurrentTowerLevel: 2
+  _prefabBullet: {fileID: 1519924648624302573}
+  _spawnBullet:
+  - {fileID: 2652171902158702167}
+  _turret: {fileID: 8239203647191380177}
+--- !u!114 &3421391944604161109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584617968799763015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00931cab8eb45834da802c8ebaf0f4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedRate: 0.9
+  Dissolve: 0
+--- !u!114 &1662472645425918166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584617968799763015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff8ee2784681d446a7cb220119a901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedIcon: {fileID: 6878330178005404450}
+  TypeObject: 0
 --- !u!1 &6878330178005404450
 GameObject:
   m_ObjectHideFlags: 0

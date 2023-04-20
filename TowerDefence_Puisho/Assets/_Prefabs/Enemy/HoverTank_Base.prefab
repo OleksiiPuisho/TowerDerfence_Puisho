@@ -49,7 +49,8 @@ GameObject:
   - component: {fileID: 6832084892621808818}
   - component: {fileID: 4318469309808523728}
   - component: {fileID: 205500502548945110}
-  m_Layer: 0
+  - component: {fileID: -2202521742697246121}
+  m_Layer: 3
   m_Name: HoverTank_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +129,102 @@ MonoBehaviour:
   _mainBaseTarget: {fileID: 0}
   _layerBullet: BulletEnemy
   EnemyScriptable: {fileID: 11400000, guid: 15d041e88c884c04ab84398b4359e53a, type: 2}
-  CurrentHealthEnemy: 1
+--- !u!82 &-2202521742697246121
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439666878555795149}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 3021669405841839045, guid: 6e38630d87de0da4a92cdc391194aedf, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3439666878555795151
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +236,7 @@ GameObject:
   - component: {fileID: 3439666878555435759}
   - component: {fileID: 3439666878552568525}
   - component: {fileID: 3439666878553534477}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: polySurface11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +321,7 @@ GameObject:
   - component: {fileID: 3466812193905476477}
   - component: {fileID: 3466812193904509373}
   - component: {fileID: 6997463203720124057}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HoverTank_Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,7 +643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6262350187533005999}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpawnBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

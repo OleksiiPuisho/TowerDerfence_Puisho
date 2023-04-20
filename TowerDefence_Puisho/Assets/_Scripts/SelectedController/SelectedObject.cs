@@ -17,11 +17,25 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
         }
         SelectedObjectController.CurrentSelectedObject = this;
         if (TypeObject == TypeObject.MainBase)
-            EventAggregator.Post(this, new SelectedMainBaseEvent()
+        {
+            if (MainBase.CurrentLevel.Level == Level.Level_3)
             {
-                Level = MainBase.CurrentLevel.Level.ToString()[6..],
-                MaxHealthBase = MainBase.CurrentLevel.MaxHealth.ToString(),
-            });
+                EventAggregator.Post(this, new SelectedMainBaseEvent()
+                {
+                    Level = MainBase.CurrentLevel.Level.ToString()[6..],
+                    MaxHealthBase = MainBase.CurrentLevel.MaxHealth.ToString(),
+                });
+                EventAggregator.Post(this, new LevelMaxEvent() { IsUpgreded = false });
+            }
+            else
+            {
+                EventAggregator.Post(this, new SelectedMainBaseEvent()
+                {
+                    Level = MainBase.CurrentLevel.Level.ToString()[6..],
+                    MaxHealthBase = MainBase.CurrentLevel.MaxHealth.ToString(),
+                });
+            }
+        }
         else
         {
             var tower = SelectedObjectController.CurrentSelectedObject.GetComponent<Tower>();
@@ -37,7 +51,7 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
                     Radius = tower.TowerScriptable.RadiusAttack.ToString(),
                     RateOfFire = tower.TowerScriptable.ReloadGunTower.ToString()
                 });
-                EventAggregator.Post(this, new LevelMaxEvent());
+                EventAggregator.Post(this, new LevelMaxEvent() { IsUpgreded = false });
             }
             else
             {

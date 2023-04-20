@@ -118,11 +118,11 @@ GameObject:
   - component: {fileID: 7979552494320057407}
   - component: {fileID: 7979552494322924573}
   - component: {fileID: 7979552494321827549}
-  - component: {fileID: 5177016927728223655}
-  - component: {fileID: 3294939269592637814}
   - component: {fileID: 4688675900230111343}
-  - component: {fileID: 153581828866621879}
   - component: {fileID: -3583757554703968929}
+  - component: {fileID: 1608664363586979931}
+  - component: {fileID: 3294939269592637814}
+  - component: {fileID: 153581828866621879}
   m_Layer: 8
   m_Name: MachineGun_3
   m_TagString: Untagged
@@ -197,41 +197,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5177016927728223655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7979552494319624223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27128aff51019b34f9d02aecd091698a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioSource: {fileID: -3583757554703968929}
-  TowerScriptable: {fileID: 11400000, guid: 9fcd434a32fcc674984408ab91cb0478, type: 2}
-  CurrentTowerLevel: 2
-  CurrentHealthTower: 100
-  _prefabBullet: {fileID: 6213211182034729297, guid: 9286c7aad3384a042a04b60a0ca4a499, type: 3}
-  _spawnBullet:
-  - {fileID: 987696428030412346}
-  - {fileID: 5051232843022632912}
-  _turret: {fileID: 515149164164763546}
---- !u!114 &3294939269592637814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7979552494319624223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dff8ee2784681d446a7cb220119a901c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SelectedIcon: {fileID: 8716766222076638890}
-  TypeObject: 0
 --- !u!65 &4688675900230111343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -245,20 +210,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.888618, y: 0.97355396, z: 2.3345652}
   m_Center: {x: 0, y: 0, z: 0.0065798163}
---- !u!114 &153581828866621879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7979552494319624223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00931cab8eb45834da802c8ebaf0f4bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speedRate: 0.9
-  Dissolve: 0
 --- !u!82 &-3583757554703968929
 AudioSource:
   m_ObjectHideFlags: 0
@@ -268,7 +219,7 @@ AudioSource:
   m_GameObject: {fileID: 7979552494319624223}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3021669405841839045, guid: 6e38630d87de0da4a92cdc391194aedf, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -355,6 +306,54 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1608664363586979931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979552494319624223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd035b731ab22e44daf71f6eb1106ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: -3583757554703968929}
+  TowerScriptable: {fileID: 11400000, guid: 9fcd434a32fcc674984408ab91cb0478, type: 2}
+  CurrentTowerLevel: 2
+  _prefabBullet: {fileID: 6213211182034729297, guid: 9286c7aad3384a042a04b60a0ca4a499, type: 3}
+  _spawnBullet:
+  - {fileID: 987696428030412346}
+  - {fileID: 5051232843022632912}
+  _turret: {fileID: 515149164164763546}
+--- !u!114 &3294939269592637814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979552494319624223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff8ee2784681d446a7cb220119a901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedIcon: {fileID: 8716766222076638890}
+  TypeObject: 0
+--- !u!114 &153581828866621879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979552494319624223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00931cab8eb45834da802c8ebaf0f4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedRate: 0.9
+  Dissolve: 0
 --- !u!1 &8393093274866348808
 GameObject:
   m_ObjectHideFlags: 0
