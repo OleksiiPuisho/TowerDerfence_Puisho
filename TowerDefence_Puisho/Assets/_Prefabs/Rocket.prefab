@@ -135,4 +135,4 @@ MonoBehaviour:
   _startParticle: {fileID: 322814720654920563, guid: bffde2eb0ce2194448fd1471abec95d8, type: 3}
   _defaultLayerBullet: Bullet
   _enemyLayerBullet: BulletEnemy
-  _radiusExplosion: 7
+  _radiusExplosion: 5

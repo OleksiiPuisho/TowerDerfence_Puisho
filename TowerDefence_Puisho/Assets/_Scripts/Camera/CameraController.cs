@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helpers;
+using Helpers.Events;
 
 public class CameraController : MonoBehaviour
 {
     private Transform _camera;
+    private Animator _animator;
     [SerializeField] private float _speedPosition;
     [SerializeField] private float _speedZoom;
 
@@ -25,9 +28,13 @@ public class CameraController : MonoBehaviour
     private Touch _touch1;
 
     private Vector2 _centerScreen;
+    [SerializeField] Vector3 _endGameVector;
     void Awake()
     {
+        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
+        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
         _camera = gameObject.transform;
+        _animator = GetComponent<Animator>();
         _centerScreen = new Vector2(Screen.width / 2, Screen.height / 2);
 #if UNITY_EDITOR
         _speedPosition *= 2f;
@@ -112,5 +119,15 @@ public class CameraController : MonoBehaviour
                 _camera.position = new(_camera.position.x, _camera.position.y - _speedCorrectedHeight * Time.deltaTime, _camera.position.z);
             }
         }
+    }
+    private void GameWinChange(object sender, GameWinEvent eventData)
+    {
+        _animator.enabled = true;
+        GetComponent<CameraController>().enabled = false;
+    }
+    private void GameOverChange(object sender, GameOverEvent eventData)
+    {
+        _animator.enabled = true;
+        GetComponent<CameraController>().enabled = false;
     }
 }

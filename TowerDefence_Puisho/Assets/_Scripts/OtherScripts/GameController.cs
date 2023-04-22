@@ -6,17 +6,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    private AudioSource _audioSource;
     public static int Money;
     void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         EventAggregator.Subscribe<MoneyUpdateEvent>(MoneyUpdateChange);
         EventAggregator.Subscribe<StartGameEvent>(StartGameChange);
-    }
-
-    
-    void Update()
-    {
-        
+        AudioManager.InstanceAudio.PlayMusic(MusicType.BackgroundMusic, _audioSource);
     }
     private void MoneyUpdateChange(object sender, MoneyUpdateEvent eventData)
     {

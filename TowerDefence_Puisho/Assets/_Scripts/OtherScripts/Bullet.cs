@@ -29,16 +29,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.GetComponent<Enemy>())
+        if(gameObject.layer == LayerMask.NameToLayer(_enemyLayerBullet))
         {
-            if (collider.TryGetComponent<IDamageble>(out var damageble))
+            if (collider.GetComponent<MainBase>() && collider.TryGetComponent<IDamageble>(out var damageble))
             {
                 damageble.SetDamage(DamageBullet);
             }
         }
-        else if (gameObject.layer == LayerMask.NameToLayer(_enemyLayerBullet) && !collider.GetComponent<Enemy>())
+        else
         {
-            if (collider.TryGetComponent<IDamageble>(out var damageble))
+            if (collider.GetComponent<Enemy>() && collider.TryGetComponent<IDamageble>(out var damageble))
             {
                 damageble.SetDamage(DamageBullet);
             }
@@ -51,7 +51,6 @@ public class Bullet : MonoBehaviour
         var particle = SpawnController.GetObject(particleObject);
         particle.transform.SetPositionAndRotation(transform.position, transform.rotation);
         particle.SetActive(true);
-        particle.GetComponent<AutoPutObject>().AutoPut();
     }
     private void OnEnable()
     {

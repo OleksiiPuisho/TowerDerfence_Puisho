@@ -61,7 +61,7 @@ public class MachineGunTower : Tower
     private void Attack()
     {
 
-        if (_targetAttack != null)
+        if (_targetAttack != null && _targetAttack.gameObject.activeSelf)
         {
             RotateTower();
             if (_hasAttack && _lookToTarget)

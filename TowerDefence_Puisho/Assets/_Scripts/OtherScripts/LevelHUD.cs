@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Helpers;
 using Helpers.Events;
+using UnityEngine.SceneManagement;
 
 public class LevelHUD : MonoBehaviour
 {
@@ -48,6 +49,7 @@ public class LevelHUD : MonoBehaviour
     [SerializeField] private TMP_Text _rateOfFire;
     [SerializeField] private TMP_Text _priceUpgradeTower;
     [Header("UI End Game")]
+    [SerializeField] private float _timeInvokePanel;
     [SerializeField] private Canvas _gameOverCanvas;
     [SerializeField] private Canvas _gameWinCanvas;
     private void Awake()
@@ -92,7 +94,7 @@ public class LevelHUD : MonoBehaviour
 
         _nameTower.text = eventData.Name;
         _levelTower.text = eventData.Level;
-        _damageTower.text = eventData.MinDamage + " - " + eventData.MaxDamage;
+        _damageTower.text = string.Format("{0} - {1}", eventData.MinDamage, eventData.MaxDamage);
         _radiusTower.text = eventData.Radius;
         _rateOfFire.text = eventData.RateOfFire;
         _priceUpgradeTower.text = eventData.PriceUpgrade;
@@ -163,13 +165,13 @@ public class LevelHUD : MonoBehaviour
         _enemiesLeft = eventData.CountEnemyInWaveStart;
         _enemyAll = eventData.CountEnemyInWaveStart;
 
-        _levelCurrentText.text = "Wave: " + eventData.CurrentWaveCount.ToString() + "/" + eventData.AllWave.ToString();
-        _enemiesCountText.text = _enemiesLeft.ToString() + "/" + _enemyAll.ToString();
+        _levelCurrentText.text = string.Format("Wave: {0}/{1}", eventData.CurrentWaveCount, eventData.AllWave);
+        _enemiesCountText.text = string.Format("{0}/{1}", _enemiesLeft, _enemyAll);
     }
     private void UpdateInfoWaveChange(object sender, UpdateInfoWaveEvent eventData)
     {
         _enemiesLeft = eventData.EnemiesLeft;
-        _enemiesCountText.text = _enemiesLeft.ToString() + "/" + _enemyAll.ToString();
+        _enemiesCountText.text = string.Format("{0}/{1}", _enemiesLeft, _enemyAll);
     }
     private void WaitWaweChange(object sender, WaitWaweEvent eventData)
     {
@@ -196,24 +198,24 @@ public class LevelHUD : MonoBehaviour
         _healthSlider.maxValue = MainBase.CurrentLevel.MaxHealth;
         _healthSlider.value = MainBase.CurrentHealthBase;
 
-        _healthSliderText.text = MainBase.CurrentHealthBase + " / " + MainBase.CurrentLevel.MaxHealth;
+        _healthSliderText.text = string.Format("{0} / {1}", MainBase.CurrentHealthBase, MainBase.CurrentLevel.MaxHealth);
     }
     private void GameOverChange(object sender, GameOverEvent eventData)
     {
-        Invoke(nameof(InvokeCanvasGameOver), 3f);
+        _canvasHUD.gameObject.SetActive(false);
+        Invoke(nameof(InvokeCanvasGameOver), _timeInvokePanel);
     }
     private void InvokeCanvasGameOver()
     {
-        _canvasHUD.gameObject.SetActive(false);
         _gameOverCanvas.gameObject.SetActive(true);
     }
     private void GameWinChange(object sender, GameWinEvent eventData)
     {
-        Invoke(nameof(InvokeCanvasGameWin), 3f);
+        _canvasHUD.gameObject.SetActive(false);
+        Invoke(nameof(InvokeCanvasGameWin), _timeInvokePanel);
     }
     private void InvokeCanvasGameWin()
-    {
-        _canvasHUD.gameObject.SetActive(false);
+    {       
         _gameWinCanvas.gameObject.SetActive(true);
     }
 }

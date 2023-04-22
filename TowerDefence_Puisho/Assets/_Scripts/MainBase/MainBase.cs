@@ -5,6 +5,8 @@ using Helpers;
 using Helpers.Events;
 public class MainBase : MonoBehaviour, IDamageble
 {
+    [SerializeField] private ParticleSystem _gameOverParticle;
+    [SerializeField] private ParticleSystem _gameWinParticle;
     public static MainBase InstanceMainBase;
     [SerializeField] private UpgradeScriptableMainBase[] _allLevelsBase;
     public static UpgradeScriptableMainBase CurrentLevel;
@@ -20,6 +22,7 @@ public class MainBase : MonoBehaviour, IDamageble
         });
         if (CurrentHealthBase <= 0)
         {
+            _gameOverParticle.gameObject.SetActive(true);
             EventAggregator.Post(this, new GameOverEvent());
         }
     }
@@ -63,6 +66,7 @@ public class MainBase : MonoBehaviour, IDamageble
     {       
         InstanceMainBase = this;
         EventAggregator.Subscribe<StartGameEvent>(StartGameChange);
+        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
     }
     void Update()
     {
@@ -79,6 +83,10 @@ public class MainBase : MonoBehaviour, IDamageble
             MaxHealthBase = CurrentLevel.MaxHealth,
             CurrentHealth = CurrentHealthBase
         });
+    }
+    private void GameWinChange(object sender, GameWinEvent eventData)
+    {
+        _gameWinParticle.gameObject.SetActive(true);
     }
     private void OnDestroy()
     {

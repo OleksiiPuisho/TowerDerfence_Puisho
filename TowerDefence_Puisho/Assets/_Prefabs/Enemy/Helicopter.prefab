@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329124cb3cd9080429f0e0f7ba2ad9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deathParticle: {fileID: 2118196191963637808, guid: 384858bab5e7c404d986cd073d10594d, type: 3}
   _healthSlider: {fileID: 6329936146428797576}
   _bulletPrefab: {fileID: 1829933140125466711, guid: 47e7e50060d49c5419c83e9f37b283d8, type: 3}
   _spawnBullet:

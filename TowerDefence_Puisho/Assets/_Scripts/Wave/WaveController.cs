@@ -53,6 +53,7 @@ public class WaveController : MonoBehaviour
     }
     private void UpdateListEnemy()
     {
+        _currentSpawnEnemyList.Clear();
         for (int i = 0; i < _wavesLevel.Waves[_currentWave].EnemyInstances.Length; i++)
         {
             for (int c = 0; c < _wavesLevel.Waves[_currentWave].EnemyInstances[i].Count; c++)
@@ -68,13 +69,19 @@ public class WaveController : MonoBehaviour
         {
             var enemy = _currentSpawnEnemyList[Random.Range(0, _currentSpawnEnemyList.Count)];
             var enemyObject = SpawnController.GetObject(enemy);
-            enemyObject.transform.SetParent(null);
 
-            if(enemyObject.GetComponent<Enemy>().EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
+            if (enemyObject.GetComponent<Enemy>().EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
+            {
                 enemyObject.transform.SetPositionAndRotation(_spawnEnemiesGround.position, _spawnEnemiesGround.rotation);
+                EnemiesGroundList.Add(enemyObject.GetComponent<Enemy>());
+            }
             else
+            {
                 enemyObject.transform.SetPositionAndRotation(_spawnEnemiesAir.position, _spawnEnemiesAir.rotation);
+                EnemiesAirList.Add(enemyObject.GetComponent<Enemy>());
+            }
             _currentSpawnEnemyList.Remove(enemy);
+            enemyObject.SetActive(true);
             _hasSpawn = false;
             StartCoroutine(TimeToSpawn());
         }

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour, IDamageble
 {
     private NavMeshAgent _agent;
     private AudioSource _audioSource;
+    [SerializeField] private ParticleSystem _deathParticle;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform[] _spawnBullet;
@@ -31,31 +32,37 @@ public class Enemy : MonoBehaviour, IDamageble
 
         if(_currentHealthEnemy <= 0)
         {
-            Destroy(gameObject);
+            var particle = SpawnController.GetObject(_deathParticle.gameObject);
+            particle.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            particle.SetActive(true);
+            
+            if (EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
+                WaveController.EnemiesGroundList.Remove(this);
+            else
+                WaveController.EnemiesAirList.Remove(this);
+            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = EnemyScriptable.Reward });
+            EventAggregator.Post(this, new EnemyDeathEvent());
+            SpawnController.PutObject(gameObject);
         }
 
         _healthSlider.value = _currentHealthEnemy;
-        if (_currentHealthEnemy < EnemyScriptable.MaxHealthEnemy && _healthSlider.gameObject.activeSelf == false)
+        if (!_healthSlider.gameObject.activeSelf)
             _healthSlider.gameObject.SetActive(true);
     }
     void Awake()
     {
+        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
+        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
         _audioSource = GetComponent<AudioSource>();
         _mainBaseTarget = FindObjectOfType<MainBase>().transform;
         _agent = GetComponent<NavMeshAgent>();
-        StartCoroutine(ReloadCorutine());
-        _currentEnemyState = EnemyState.Movement;
-        _currentHealthEnemy = EnemyScriptable.MaxHealthEnemy;
-        _healthSlider.maxValue = EnemyScriptable.MaxHealthEnemy;
-        _healthSlider.value = EnemyScriptable.MaxHealthEnemy;
-        _healthSlider.gameObject.SetActive(false);
+        StartCoroutine(ReloadCorutine());       
     }
 
     void Update()
     {
-        UpdateStateAgent(_currentEnemyState);
-        if (_currentHealthEnemy <= 0)
-            Destroy(gameObject);
+        if(_currentHealthEnemy > 0)
+            UpdateStateAgent(_currentEnemyState);
     }
     private void UpdateStateAgent(EnemyState enemyState)
     {
@@ -122,21 +129,20 @@ public class Enemy : MonoBehaviour, IDamageble
         yield return new WaitForSeconds(EnemyScriptable.ReloadGun);
         _hasAttack = true;
     }
+    private void GameOverChange(object sender, GameOverEvent eventData)
+    {
+        GetComponent<Enemy>().enabled = false;
+    }
+    private void GameWinChange(object sender, GameWinEvent eventData)
+    {
+        GetComponent<Enemy>().enabled = false;
+    }
     private void OnEnable()
     {
-        if (EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
-            WaveController.EnemiesGroundList.Add(this);
-
-        else if (EnemyScriptable.TypeEnemy == TypeEnemy.Air)
-            WaveController.EnemiesAirList.Add(this);
-    }
-    private void OnDestroy()
-    {
-        EventAggregator.Post(this, new MoneyUpdateEvent() {MoneyCount = EnemyScriptable.Reward});
-        EventAggregator.Post(this, new EnemyDeathEvent());
-        if (EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
-            WaveController.EnemiesGroundList.Remove(this);
-        else
-            WaveController.EnemiesAirList.Remove(this);
+        _currentEnemyState = EnemyState.Movement;
+        _currentHealthEnemy = EnemyScriptable.MaxHealthEnemy;
+        _healthSlider.maxValue = EnemyScriptable.MaxHealthEnemy;
+        _healthSlider.value = EnemyScriptable.MaxHealthEnemy;
+        _healthSlider.gameObject.SetActive(false);
     }
 }

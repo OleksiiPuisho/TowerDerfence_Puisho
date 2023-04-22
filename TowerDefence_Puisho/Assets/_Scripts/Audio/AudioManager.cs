@@ -26,12 +26,6 @@ public class AudioManager : MonoBehaviour
         var sfxData = _sfxDatas.Find(SfxData => SfxData.TypeSfx == sfxType);
         audioSource.PlayOneShot(sfxData.Clip);
     }
-    public void PlaySfxWalking(SfxType sfxType, AudioSource audioSource)
-    {
-        var sfxData = _sfxDatas.Find(SfxData => SfxData.TypeSfx == sfxType);
-        audioSource.clip = sfxData.Clip;
-        audioSource.Play();
-    }
     public void PlayMusic(MusicType musicType, AudioSource audioSource)
     {
         var musicData = _musicDatas.Find(MusicData => MusicData.TypeMusic == musicType);
