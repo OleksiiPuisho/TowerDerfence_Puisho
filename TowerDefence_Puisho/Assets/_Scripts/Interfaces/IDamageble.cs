@@ -1,7 +1,4 @@
-interface IDamageble
+public interface IDamageble
 {
-   void SetDamage(float damgeCount)
-    {
-
-    }
+    void SetDamage(float damgeCount);
 }

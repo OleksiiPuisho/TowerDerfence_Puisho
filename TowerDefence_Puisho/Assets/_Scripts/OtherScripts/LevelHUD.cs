@@ -6,10 +6,12 @@ using TMPro;
 using Helpers;
 using Helpers.Events;
 using UnityEngine.SceneManagement;
+using TowerSpace;
 
 public class LevelHUD : MonoBehaviour
 {
     [Header("Links Main")]
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private Canvas _canvasHUD;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private TMP_Text _healthSliderText;
@@ -41,12 +43,13 @@ public class LevelHUD : MonoBehaviour
     //MainBase Content
     [SerializeField] private TMP_Text _levelBase;
     [SerializeField] private TMP_Text _healthMainBase;
+    [SerializeField] private TMP_Text _priceUpgradeMainBase;
     //Tower Content
     [SerializeField] private TMP_Text _nameTower;
     [SerializeField] private TMP_Text _levelTower;   
     [SerializeField] private TMP_Text _damageTower;
     [SerializeField] private TMP_Text _radiusTower;
-    [SerializeField] private TMP_Text _rateOfFire;
+    [SerializeField] private TMP_Text _typeAtackTower;
     [SerializeField] private TMP_Text _priceUpgradeTower;
     [Header("UI End Game")]
     [SerializeField] private float _timeInvokePanel;
@@ -94,10 +97,10 @@ public class LevelHUD : MonoBehaviour
 
         _nameTower.text = eventData.Name;
         _levelTower.text = eventData.Level;
-        _damageTower.text = string.Format("{0} - {1}", eventData.MinDamage, eventData.MaxDamage);
+        _damageTower.text = string.Format("{0} - {1} (x{2})", eventData.MinDamage, eventData.MaxDamage, eventData.BulletSpawnCount);
         _radiusTower.text = eventData.Radius;
-        _rateOfFire.text = eventData.RateOfFire;
         _priceUpgradeTower.text = eventData.PriceUpgrade;
+        _typeAtackTower.text = eventData.AttackType;
     }
     private void SelectedMainBase(object sender, SelectedMainBaseEvent eventData)
     {
@@ -108,6 +111,7 @@ public class LevelHUD : MonoBehaviour
         _destroyButton.gameObject.SetActive(false);
         _levelBase.text = eventData.Level;
         _healthMainBase.text = eventData.MaxHealthBase;
+        _priceUpgradeMainBase.text = eventData.PriceUpgrade;
     }
     private void DestroyButton()
     {
@@ -153,9 +157,7 @@ public class LevelHUD : MonoBehaviour
     {
         _healthSlider.maxValue = eventData.MaxHealthBase;        
         _healthSlider.value = eventData.CurrentHealth;
-
-        int health = (int)eventData.CurrentHealth;
-        _healthSliderText.text = health + " / " + eventData.MaxHealthBase;
+        _healthSliderText.text = string.Format("{0} / {1}", eventData.CurrentHealth, eventData.MaxHealthBase);
     }
     private void StartWaveChange(object sender, StartWaveEvent eventData)
     {
@@ -208,6 +210,7 @@ public class LevelHUD : MonoBehaviour
     private void InvokeCanvasGameOver()
     {
         _gameOverCanvas.gameObject.SetActive(true);
+        AudioManager.InstanceAudio.PlaySfx(SfxType.GameOver, _audioSource);
     }
     private void GameWinChange(object sender, GameWinEvent eventData)
     {
@@ -217,5 +220,7 @@ public class LevelHUD : MonoBehaviour
     private void InvokeCanvasGameWin()
     {       
         _gameWinCanvas.gameObject.SetActive(true);
+        _audioSource.loop = false;
+        AudioManager.InstanceAudio.PlaySfx(SfxType.GameWin, _audioSource);
     }
 }

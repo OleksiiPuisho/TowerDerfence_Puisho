@@ -28,7 +28,6 @@ public class CameraController : MonoBehaviour
     private Touch _touch1;
 
     private Vector2 _centerScreen;
-    [SerializeField] Vector3 _endGameVector;
     void Awake()
     {
         EventAggregator.Subscribe<GameWinEvent>(GameWinChange);

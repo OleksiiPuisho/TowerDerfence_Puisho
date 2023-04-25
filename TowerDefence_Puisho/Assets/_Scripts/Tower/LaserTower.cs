@@ -4,112 +4,71 @@ using UnityEngine;
 using Helpers;
 using Helpers.Events;
 
-public class LaserTower : Tower
+namespace TowerSpace
 {
-    private void Start()
+    public class LaserTower : Tower
     {
-        StartCoroutine(TowerReloadCorutine());
-        AudioManager.InstanceAudio.PlaySfx(SfxType.BuildTower, _audioSource);
-    }
-    private void Update()
-    {
-        UpdateState(_currentState);
-    }
-    private void UpdateState(StateTower stateTower)
-    {
-        _currentState = stateTower;
-        switch (stateTower)
+        public override void Attack()
         {
-            case StateTower.SearchTarget:
-                SearchTarget();
-                break;
-            case StateTower.Attack:
-                Attack();
-                break;
-        }
-    }
-    private void SearchTarget()
-    {
-        if (TowerScriptable.HasAttackGroundTarget)
-        {
-            if (WaveController.EnemiesGroundList.Count > 0)
-            {
-                foreach (Enemy enemy in WaveController.EnemiesGroundList)
-                {
-                    if (Vector3.Distance(transform.position, enemy.transform.position) <= TowerScriptable.RadiusAttack)
-                    {
-                        _targetAttack = enemy;
-                        UpdateState(StateTower.Attack);
-                    }
-                }
-            }
-        }
-        if (TowerScriptable.HasAttackAirTarget)
-        {
-            if (WaveController.EnemiesAirList.Count > 0)
-            {
-                foreach (Enemy enemy in WaveController.EnemiesAirList)
-                {
-                    if (Vector3.Distance(transform.position, enemy.transform.position) <= TowerScriptable.RadiusAttack)
-                    {
-                        _targetAttack = enemy;
-                        UpdateState(StateTower.Attack);
-                    }
-                }
-            }
-        }
-    }
-    private void Attack()
-    {
 
-        if (_targetAttack != null && _targetAttack.gameObject.activeSelf)
-        {
-            RotateTower();
-            if (_hasAttack && _lookToTarget)
+            if (TargetAttack != null && TargetAttack.gameObject.activeSelf)
             {
-                _prefabBullet.SetActive(true);
-                _spawnBullet[0].transform.LookAt(_targetAttack.transform);
-                if (Physics.Raycast(_spawnBullet[0].position, _spawnBullet[0].forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+                RotateTower();
+                if (_hasAttack && _lookToTarget)
                 {
-                    if (hit.collider.TryGetComponent<IDamageble>(out var damageble))
+                    PrefabBullet.SetActive(true);
+                    SpawnBullet[0].transform.LookAt(TargetAttack.transform);
+                    if (Physics.Raycast(SpawnBullet[0].position, SpawnBullet[0].forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
                     {
-                        damageble.SetDamage(Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower));
-                        _hasAttack = false;
-                        StartCoroutine(TowerReloadCorutine());
+                        if (hit.collider.TryGetComponent<IDamageble>(out var damageble))
+                        {
+                            damageble.SetDamage(Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower));
+                            _hasAttack = false;
+                            StartCoroutine(TowerReloadCorutine());
+                        }
                     }
                 }
-            }
 
-            if (Vector3.Distance(transform.position, _targetAttack.transform.position) > TowerScriptable.RadiusAttack)
+                if (Vector3.Distance(transform.position, TargetAttack.transform.position) > TowerScriptable.RadiusAttack)
+                {
+                    TargetAttack = null;
+                    _lookToTarget = false;
+                    PrefabBullet.SetActive(false);
+                    UpdateState(StateTower.SearchTarget);
+                }
+            }
+            else
             {
-                _targetAttack = null;
-                _lookToTarget = false;
-                _prefabBullet.SetActive(false);
+                PrefabBullet.SetActive(false);
                 UpdateState(StateTower.SearchTarget);
             }
-        }
-        else
-        {
-            _prefabBullet.SetActive(false);
-            UpdateState(StateTower.SearchTarget);
-        }
 
-    }
-    private void RotateTower()
-    {
-        var directionRotatation = Quaternion.LookRotation(_targetAttack.transform.position - _turret.position);
-        _turret.rotation = Quaternion.Slerp(_turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
-        if (!_lookToTarget)
+        }
+        public override void RotateTower()
         {
-            if (Physics.Raycast(_turret.position, _turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+            var directionRotatation = Quaternion.LookRotation(TargetAttack.transform.position - Turret.position);
+            Turret.rotation = Quaternion.Slerp(Turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
+            if (!_lookToTarget)
             {
-                if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
+                if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
                 {
-                    _targetAttack = enemy;
-                    _lookToTarget = true;
-                    _prefabBullet.SetActive(true);
+                    if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
+                    {
+                        TargetAttack = enemy;
+                        _lookToTarget = true;
+                        PrefabBullet.SetActive(true);
+                    }
                 }
             }
+        }
+        private void OnEnable()
+        {
+            StartCoroutine(TowerReloadCorutine());
+            AudioManager.InstanceAudio.PlaySfx(SfxType.BuildTower, _audioSource);
+        }
+        private void Update()
+        {
+            UpdateState(CurrentState);
         }
     }
 }

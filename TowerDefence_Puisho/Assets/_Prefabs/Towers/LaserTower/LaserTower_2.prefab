@@ -100,7 +100,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e5cb8ba1552e94e4f85427954e28dc79, type: 2}
+  - {fileID: 2100000, guid: b65f3e8e657b2654bac2862dfd333ed2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -191,7 +191,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -246,10 +246,10 @@ MonoBehaviour:
   _audioSource: {fileID: 3860573857825837306}
   TowerScriptable: {fileID: 11400000, guid: 6bfec312f7057df4a97680bd314a8c2c, type: 2}
   CurrentTowerLevel: 1
-  _prefabBullet: {fileID: 8160506115571487071}
-  _spawnBullet:
+  PrefabBullet: {fileID: 8160506115571487071}
+  SpawnBullet:
   - {fileID: 630359510105795579}
-  _turret: {fileID: 3923269617977091928}
+  Turret: {fileID: 3923269617977091928}
 --- !u!114 &7042109656763105967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5421,6 +5421,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3222863475209555325, guid: 0ba95881dc77ee349a32b0caee56fa8c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b65f3e8e657b2654bac2862dfd333ed2, type: 2}
     m_RemovedComponents:
     - {fileID: 3222863475214753917, guid: 0ba95881dc77ee349a32b0caee56fa8c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0ba95881dc77ee349a32b0caee56fa8c, type: 3}

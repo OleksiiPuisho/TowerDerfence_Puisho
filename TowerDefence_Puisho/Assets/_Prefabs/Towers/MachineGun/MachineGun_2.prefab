@@ -245,10 +245,10 @@ MonoBehaviour:
   _audioSource: {fileID: 3941018624123689124}
   TowerScriptable: {fileID: 11400000, guid: ee74f139add88234c930090e6b764cf0, type: 2}
   CurrentTowerLevel: 1
-  _prefabBullet: {fileID: 6213211182034729297, guid: 9286c7aad3384a042a04b60a0ca4a499, type: 3}
-  _spawnBullet:
+  PrefabBullet: {fileID: 6213211182034729297, guid: 9286c7aad3384a042a04b60a0ca4a499, type: 3}
+  SpawnBullet:
   - {fileID: 8298363908054414580}
-  _turret: {fileID: 5712031363137579763}
+  Turret: {fileID: 5712031363137579763}
 --- !u!114 &7545015828840195051
 MonoBehaviour:
   m_ObjectHideFlags: 0

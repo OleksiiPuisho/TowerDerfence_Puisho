@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Helpers;
 using Helpers.Events;
+using TowerSpace;
 
 public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickHandler,IPointerUpHandler
 {
@@ -24,23 +25,34 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
                 {
                     Level = MainBase.CurrentLevel.Level.ToString()[6..],
                     MaxHealthBase = MainBase.CurrentLevel.MaxHealth.ToString(),
+                    PriceUpgrade = "MAX"
                 });
                 EventAggregator.Post(this, new LevelMaxEvent() { IsUpgreded = false });
             }
             else
             {
-                EventAggregator.Post(this, new SelectedMainBaseEvent()
+                int id;
+                for(int i = 0; i < MainBase.InstanceMainBase.AllLevelsBase.Length; i++)
                 {
-                    Level = MainBase.CurrentLevel.Level.ToString()[6..],
-                    MaxHealthBase = MainBase.CurrentLevel.MaxHealth.ToString(),
-                });
+                    if (MainBase.CurrentLevel == MainBase.InstanceMainBase.AllLevelsBase[i])
+                    {
+                        id = i + 1;
+                        EventAggregator.Post(this, new SelectedMainBaseEvent()
+                        {
+                            Level = MainBase.CurrentLevel.Level.ToString()[6..],
+                            MaxHealthBase = MainBase.CurrentLevel.MaxHealth.ToString(),
+                            PriceUpgrade = MainBase.InstanceMainBase.AllLevelsBase[id].Price.ToString()
+                        });
+                    }
+                }                
             }
         }
         else
         {
-            var tower = SelectedObjectController.CurrentSelectedObject.GetComponent<Tower>();
+            var tower = SelectedObjectController.CurrentSelectedObject.GetComponent<Tower>();           
+
             if (tower.CurrentTowerLevel == TowerLevel.Level_3)
-            {
+            {                
                 EventAggregator.Post(this, new SelectedTowerEvent()
                 {
                     Name = tower.TowerScriptable.Name,
@@ -49,7 +61,8 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
                     Level = tower.CurrentTowerLevel.ToString()[6..],
                     PriceUpgrade = "Max Level",
                     Radius = tower.TowerScriptable.RadiusAttack.ToString(),
-                    RateOfFire = tower.TowerScriptable.ReloadGunTower.ToString()
+                    BulletSpawnCount = tower.SpawnBullet.Length,
+                    AttackType = TypeAttackString(tower)
                 });
                 EventAggregator.Post(this, new LevelMaxEvent() { IsUpgreded = false });
             }
@@ -63,7 +76,8 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
                     Level = tower.CurrentTowerLevel.ToString()[6..],
                     PriceUpgrade = tower.TowerScriptable.PriceUpgrade.ToString(),
                     Radius = tower.TowerScriptable.RadiusAttack.ToString(),
-                    RateOfFire = tower.TowerScriptable.ReloadGunTower.ToString()
+                    BulletSpawnCount = tower.SpawnBullet.Length,
+                    AttackType = TypeAttackString(tower)
                 });
             }
         }
@@ -77,6 +91,20 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
     public void OnPointerUp(PointerEventData eventData)
     {
         
+    }
+    private string TypeAttackString(Tower tower)
+    {
+        if (tower.TowerScriptable.HasAttackAirTarget && tower.TowerScriptable.HasAttackGroundTarget)
+            return "Ground - Air";
+
+        if (tower.TowerScriptable.HasAttackAirTarget)
+            return "Air";
+
+        if (tower.TowerScriptable.HasAttackGroundTarget)
+            return "Ground";
+        
+
+        else return "Error";
     }
 }
 public enum TypeObject { Tower, MainBase}

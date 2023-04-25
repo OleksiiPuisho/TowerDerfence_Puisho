@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986f8a3cbc9451b45a53e1ba2ca8bb62, type: 3}
   m_Name: Level_1
   m_EditorClassIdentifier: 
-  Level: 1
-  MaxHealth: 1500
-  Armor: 5
-  Price: 100
+  Level: 0
+  MaxHealth: 1000
+  Armor: 2
+  Price: 0

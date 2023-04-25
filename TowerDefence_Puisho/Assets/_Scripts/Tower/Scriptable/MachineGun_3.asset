@@ -17,11 +17,11 @@ MonoBehaviour:
   HasAttackAirTarget: 1
   NextPrefabTower: {fileID: 0}
   Name: Machine Gun
-  MinDamageTower: 7
-  MaxDamageTower: 15
+  MinDamageTower: 5
+  MaxDamageTower: 11
   SpeedBulletTower: 50
   SpeedRotation: 20
   ReloadGunTower: 0.1
   RadiusAttack: 15
-  PriceTower: 400
+  PriceTower: 700
   PriceUpgrade: 0

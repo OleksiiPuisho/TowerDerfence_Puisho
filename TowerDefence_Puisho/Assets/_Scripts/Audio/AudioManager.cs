@@ -7,7 +7,8 @@ public enum SfxType
     BuildTower,
     RocketTrail,
     Bullet,
-    DestroyEnemy
+    GameWin,
+    GameOver
 }
 public enum MusicType
 {

@@ -8,7 +8,7 @@ public class MainBase : MonoBehaviour, IDamageble
     [SerializeField] private ParticleSystem _gameOverParticle;
     [SerializeField] private ParticleSystem _gameWinParticle;
     public static MainBase InstanceMainBase;
-    [SerializeField] private UpgradeScriptableMainBase[] _allLevelsBase;
+    public UpgradeScriptableMainBase[] AllLevelsBase;
     public static UpgradeScriptableMainBase CurrentLevel;
 
     public static float CurrentHealthBase;
@@ -24,25 +24,27 @@ public class MainBase : MonoBehaviour, IDamageble
         {
             _gameOverParticle.gameObject.SetActive(true);
             EventAggregator.Post(this, new GameOverEvent());
+            GetComponent<SelectedObject>().enabled = false;
         }
     }
     public void UpdateLevelMainBase()
     {
-        for (int i = 0; i < _allLevelsBase.Length; i++)
+        for (int i = 0; i < AllLevelsBase.Length; i++)
         {
-            if (CurrentLevel == _allLevelsBase[i])
+            if (CurrentLevel == AllLevelsBase[i])
             {
                 int id = i + 1;
-                if (_allLevelsBase[id].Price <= GameController.Money)
+                if (AllLevelsBase[id].Price <= GameController.Money)
                 {
-                    CurrentLevel = _allLevelsBase[id];
+                    CurrentLevel = AllLevelsBase[id];
                     EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -CurrentLevel.Price });
                     if (CurrentLevel.Level == Level.Level_3)
                     {
                         EventAggregator.Post(this, new SelectedMainBaseEvent()
                         {
                             Level = CurrentLevel.Level.ToString()[6..],
-                            MaxHealthBase = CurrentLevel.MaxHealth.ToString()
+                            MaxHealthBase = CurrentLevel.MaxHealth.ToString(),
+                            PriceUpgrade = "MAX"
                         });
                         EventAggregator.Post(this, new LevelMaxEvent() { IsUpgreded = true });
                     }
@@ -51,16 +53,22 @@ public class MainBase : MonoBehaviour, IDamageble
                         EventAggregator.Post(this, new SelectedMainBaseEvent()
                         {
                             Level = CurrentLevel.Level.ToString()[6..],
-                            MaxHealthBase = CurrentLevel.MaxHealth.ToString()
+                            MaxHealthBase = CurrentLevel.MaxHealth.ToString(),
+                            PriceUpgrade = AllLevelsBase[id + 1].Price.ToString()
                         });
                     }
                 }
                 else
                     EventAggregator.Post(this, new NotEnoughMoneyEvent());
+                CurrentHealthBase = CurrentLevel.MaxHealth;
+                EventAggregator.Post(this, new UpdateInfoMainBaseEvent()
+                {
+                    MaxHealthBase = CurrentLevel.MaxHealth,
+                    CurrentHealth = CurrentHealthBase
+                });
                 return;
             }
         }                  
-        CurrentHealthBase = CurrentLevel.MaxHealth;
     }
     private void Awake()
     {       
@@ -68,15 +76,10 @@ public class MainBase : MonoBehaviour, IDamageble
         EventAggregator.Subscribe<StartGameEvent>(StartGameChange);
         EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
     }
-    void Update()
-    {
-        if (CurrentHealthBase <= 0f)
-            EventAggregator.Post(this, new GameOverEvent());
-    }
     
     private void StartGameChange(object sender, StartGameEvent eventData)
     {
-        CurrentLevel = _allLevelsBase[0];
+        CurrentLevel = AllLevelsBase[0];
         CurrentHealthBase = CurrentLevel.MaxHealth;
         EventAggregator.Post(this, new UpdateInfoMainBaseEvent()
         {
@@ -87,6 +90,7 @@ public class MainBase : MonoBehaviour, IDamageble
     private void GameWinChange(object sender, GameWinEvent eventData)
     {
         _gameWinParticle.gameObject.SetActive(true);
+        GetComponent<SelectedObject>().enabled = false;
     }
     private void OnDestroy()
     {

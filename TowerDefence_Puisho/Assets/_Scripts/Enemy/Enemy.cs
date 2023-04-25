@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour, IDamageble
     private float _currentHealthEnemy;
     
     private EnemyState _currentEnemyState;
+
     public void SetDamage(float damageCount)
     {
         _currentHealthEnemy -= damageCount;

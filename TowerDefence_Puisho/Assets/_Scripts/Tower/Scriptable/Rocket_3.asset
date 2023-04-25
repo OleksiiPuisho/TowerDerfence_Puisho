@@ -17,11 +17,11 @@ MonoBehaviour:
   HasAttackAirTarget: 1
   NextPrefabTower: {fileID: 0}
   Name: Rocket
-  MinDamageTower: 30
-  MaxDamageTower: 50
+  MinDamageTower: 16
+  MaxDamageTower: 24
   SpeedBulletTower: 70
   SpeedRotation: 9
   ReloadGunTower: 2
   RadiusAttack: 20
-  PriceTower: 500
+  PriceTower: 800
   PriceUpgrade: 0

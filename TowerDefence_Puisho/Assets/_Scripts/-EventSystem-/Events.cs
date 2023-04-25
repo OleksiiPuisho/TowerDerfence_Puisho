@@ -36,13 +36,16 @@ namespace Helpers.Events
         public string MinDamage;
         public string MaxDamage;
         public string Radius;
-        public string RateOfFire;
+        public string AttackType;
         public string PriceUpgrade;
+        public int BulletSpawnCount;
     }
     public class SelectedMainBaseEvent
     {
         public string Level;
         public string MaxHealthBase;
+        public string PriceUpgrade;
+        public int IndexInMassive;
     }
     public class SelectedBuildPointEvent
     {

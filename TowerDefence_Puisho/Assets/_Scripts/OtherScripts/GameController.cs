@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         EventAggregator.Subscribe<MoneyUpdateEvent>(MoneyUpdateChange);
         EventAggregator.Subscribe<StartGameEvent>(StartGameChange);
+        
+    }
+    private void Start()
+    {
         AudioManager.InstanceAudio.PlayMusic(MusicType.BackgroundMusic, _audioSource);
     }
     private void MoneyUpdateChange(object sender, MoneyUpdateEvent eventData)

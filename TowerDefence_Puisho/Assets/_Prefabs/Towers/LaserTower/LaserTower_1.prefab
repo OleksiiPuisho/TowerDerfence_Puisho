@@ -5087,7 +5087,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d1d065724ed4bd74c8035f002872a5e8, type: 2}
+  - {fileID: 2100000, guid: 8c9ebc3557424e84a967f073fdd6c817, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5178,7 +5178,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5233,10 +5233,10 @@ MonoBehaviour:
   _audioSource: {fileID: 3634367746627580040}
   TowerScriptable: {fileID: 11400000, guid: fb356e50e78a14e48845ba204efef94c, type: 2}
   CurrentTowerLevel: 0
-  _prefabBullet: {fileID: 759542234592018537}
-  _spawnBullet:
+  PrefabBullet: {fileID: 759542234592018537}
+  SpawnBullet:
   - {fileID: 6966588803651336852}
-  _turret: {fileID: 284782764852583711}
+  Turret: {fileID: 284782764852583711}
 --- !u!114 &4090558936080067021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5373,6 +5373,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6017348027397475471}
     m_Modifications:
+    - target: {fileID: 5474357849500049645, guid: b76fae367ba56044b876926844258169, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c9ebc3557424e84a967f073fdd6c817, type: 2}
     - target: {fileID: 5474357849502055981, guid: b76fae367ba56044b876926844258169, type: 3}
       propertyPath: m_Name
       value: LaserTower_1Turret
