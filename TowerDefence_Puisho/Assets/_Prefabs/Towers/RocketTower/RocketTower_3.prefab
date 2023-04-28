@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 248823896838176397}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnBullet (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 953663034640366601}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6048576053525396764}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnBullet (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8700821491890613594}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnBullet (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 1164090586942220872}
   - component: {fileID: 7996432869687883223}
   - component: {fileID: 1821520705575027374}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RocketTower_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +399,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5354550900402083945}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.5, y: 1, z: 2.5}
@@ -560,6 +560,10 @@ PrefabInstance:
     - target: {fileID: 2539965998231129758, guid: 15e1d7a5fdd08d64993d57d9ea15043f, type: 3}
       propertyPath: m_Name
       value: RocketTower_3Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 2539965998231129758, guid: 15e1d7a5fdd08d64993d57d9ea15043f, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2539965998231229118, guid: 15e1d7a5fdd08d64993d57d9ea15043f, type: 3}
       propertyPath: m_RootOrder

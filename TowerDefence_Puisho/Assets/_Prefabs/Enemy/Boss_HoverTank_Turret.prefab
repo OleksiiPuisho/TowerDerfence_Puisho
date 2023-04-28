@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7935432255838985767}
   - component: {fileID: 7935432255837887719}
   m_Layer: 3
-  m_Name: HoverTank_Turret
+  m_Name: Boss_HoverTank_Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

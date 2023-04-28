@@ -33,8 +33,8 @@ namespace Helpers.Events
     {
         public string Name;
         public string Level;
-        public string MinDamage;
-        public string MaxDamage;
+        public float MinDamage;
+        public float MaxDamage;
         public string Radius;
         public string AttackType;
         public string PriceUpgrade;
@@ -69,6 +69,7 @@ namespace Helpers.Events
     {
         public float MaxHealthBase;
         public float CurrentHealth;
+        public float RepairPrice;
     }
     public class EnemyDeathEvent
     {

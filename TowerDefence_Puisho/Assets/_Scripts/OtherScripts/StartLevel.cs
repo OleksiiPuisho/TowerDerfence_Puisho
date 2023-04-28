@@ -9,10 +9,30 @@ public class StartLevel : MonoBehaviour
     [SerializeField] private List<InitializeData> _initializeDatas = new();
     [SerializeField] private Transform _globalParent;
     [SerializeField] private int _startMoney;
+    [SerializeField] private bool _isTutorial;
+    [SerializeField] private Canvas _canvasTuturial;
+    public void CloseTuturialCanvas()
+    {
+        _canvasTuturial.enabled = false;
+        Time.timeScale = 1f;
+        EventAggregator.Post(this, new StartGameEvent() { StartMoney = _startMoney });
+    }
     void Awake()
     {
         InitializeSpawn();
-        EventAggregator.Post(this, new StartGameEvent() { StartMoney = _startMoney});
+    }
+    private void Start()
+    {
+        if (!_isTutorial)
+        {
+            _canvasTuturial.enabled = false;
+            EventAggregator.Post(this, new StartGameEvent() { StartMoney = _startMoney });
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            _canvasTuturial.enabled = true;
+        }
     }
     private void InitializeSpawn()
     {

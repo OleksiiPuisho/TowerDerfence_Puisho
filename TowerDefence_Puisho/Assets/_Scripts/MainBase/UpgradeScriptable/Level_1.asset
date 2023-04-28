@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   Level: 0
-  MaxHealth: 1000
-  Armor: 2
+  MaxHealth: 100
   Price: 0

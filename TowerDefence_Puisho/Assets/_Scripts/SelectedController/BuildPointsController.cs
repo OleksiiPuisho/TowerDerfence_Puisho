@@ -62,9 +62,11 @@ public class BuildPointsController : MonoBehaviour
     {
         if (_prefabMachineGun.GetComponent<Tower>().TowerScriptable.PriceTower <= GameController.Money)
         {
-            var obj =  InstantiateTower(_prefabMachineGun);
-            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<Tower>().TowerScriptable.PriceTower });           
+            var obj = InstantiateTower(_prefabMachineGun);
+            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<Tower>().TowerScriptable.PriceTower });
         }
+        else
+            EventAggregator.Post(this, new NotEnoughMoneyEvent());
     }
     private void BuildRocket()
     {
@@ -73,6 +75,8 @@ public class BuildPointsController : MonoBehaviour
             var obj = InstantiateTower(_prefabRocket);
             EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<Tower>().TowerScriptable.PriceTower });
         }
+        else
+            EventAggregator.Post(this, new NotEnoughMoneyEvent());
     }
     private void BuildLaser()
     {
@@ -81,6 +85,8 @@ public class BuildPointsController : MonoBehaviour
             var obj = InstantiateTower(_prefabLaser);
             EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -obj.GetComponent<LaserTower>().TowerScriptable.PriceTower });
         }
+        else
+            EventAggregator.Post(this, new NotEnoughMoneyEvent());
     }
     private void Deselected(object sender, DeselectedAllEvent eventData)
     {
@@ -93,5 +99,6 @@ public class BuildPointsController : MonoBehaviour
     private void OnDestroy()
     {
         EventAggregator.Unsubscribe<SelectedBuildPointEvent>(SelectedPoint);
+        EventAggregator.Unsubscribe<DeselectedAllEvent>(Deselected);
     }
 }

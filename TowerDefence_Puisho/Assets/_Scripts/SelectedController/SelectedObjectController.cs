@@ -39,4 +39,10 @@ public class SelectedObjectController : MonoBehaviour
             CurrentSelectedObject = null;
         }
     }
+    private void OnDestroy()
+    {
+        EventAggregator.Unsubscribe<SelectedMainBaseEvent>(SelectedMainBaseChange);
+        EventAggregator.Unsubscribe<SelectedTowerEvent>(SelectedTowerChange);
+        EventAggregator.Unsubscribe<DeselectedAllEvent>(DeselectedAllChange);
+    }
 }

@@ -18,7 +18,8 @@ public class MainBase : MonoBehaviour, IDamageble
         EventAggregator.Post(this, new UpdateInfoMainBaseEvent()
         {
             CurrentHealth = CurrentHealthBase,
-            MaxHealthBase = CurrentLevel.MaxHealth
+            MaxHealthBase = CurrentLevel.MaxHealth,
+            RepairPrice = (CurrentLevel.MaxHealth - CurrentHealthBase) * 2
         });
         if (CurrentHealthBase <= 0)
         {
@@ -38,37 +39,26 @@ public class MainBase : MonoBehaviour, IDamageble
                 {
                     CurrentLevel = AllLevelsBase[id];
                     EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = -CurrentLevel.Price });
-                    if (CurrentLevel.Level == Level.Level_3)
+                    CurrentHealthBase = CurrentLevel.MaxHealth;
+                    EventAggregator.Post(this, new UpdateInfoMainBaseEvent()
                     {
-                        EventAggregator.Post(this, new SelectedMainBaseEvent()
-                        {
-                            Level = CurrentLevel.Level.ToString()[6..],
-                            MaxHealthBase = CurrentLevel.MaxHealth.ToString(),
-                            PriceUpgrade = "MAX"
-                        });
-                        EventAggregator.Post(this, new LevelMaxEvent() { IsUpgreded = true });
-                    }
-                    else
+                        MaxHealthBase = CurrentLevel.MaxHealth,
+                        CurrentHealth = CurrentHealthBase
+                    });
+                    EventAggregator.Post(this, new SelectedMainBaseEvent()
                     {
-                        EventAggregator.Post(this, new SelectedMainBaseEvent()
-                        {
-                            Level = CurrentLevel.Level.ToString()[6..],
-                            MaxHealthBase = CurrentLevel.MaxHealth.ToString(),
-                            PriceUpgrade = AllLevelsBase[id + 1].Price.ToString()
-                        });
-                    }
+                        Level = CurrentLevel.Level.ToString()[6..],
+                        MaxHealthBase = CurrentLevel.MaxHealth.ToString(),
+                        PriceUpgrade = AllLevelsBase[id + 1].Price.ToString()
+                    });
                 }
                 else
-                    EventAggregator.Post(this, new NotEnoughMoneyEvent());
-                CurrentHealthBase = CurrentLevel.MaxHealth;
-                EventAggregator.Post(this, new UpdateInfoMainBaseEvent()
                 {
-                    MaxHealthBase = CurrentLevel.MaxHealth,
-                    CurrentHealth = CurrentHealthBase
-                });
+                    EventAggregator.Post(this, new NotEnoughMoneyEvent());
+                }
                 return;
             }
-        }                  
+        }
     }
     private void Awake()
     {       
@@ -95,5 +85,6 @@ public class MainBase : MonoBehaviour, IDamageble
     private void OnDestroy()
     {
         EventAggregator.Unsubscribe<StartGameEvent>(StartGameChange);
+        EventAggregator.Unsubscribe<GameWinEvent>(GameWinChange);
     }
 }

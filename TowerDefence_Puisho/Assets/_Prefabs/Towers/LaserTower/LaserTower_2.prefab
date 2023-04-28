@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 630359510105795579}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 3750463301391719803}
   - component: {fileID: 7042109656763105967}
   - component: {fileID: 5113919200507620234}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LaserTower_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2155668749078984998}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.813688, y: 0.48072183, z: 1.813688}
@@ -5376,6 +5376,10 @@ PrefabInstance:
     - target: {fileID: 3222863475207361469, guid: 0ba95881dc77ee349a32b0caee56fa8c, type: 3}
       propertyPath: m_Name
       value: LaserTower_2Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222863475207361469, guid: 0ba95881dc77ee349a32b0caee56fa8c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3222863475207786397, guid: 0ba95881dc77ee349a32b0caee56fa8c, type: 3}
       propertyPath: m_RootOrder

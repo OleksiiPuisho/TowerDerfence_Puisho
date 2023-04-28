@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Level_2
   m_EditorClassIdentifier: 
   Level: 1
-  MaxHealth: 1500
+  MaxHealth: 300
   Price: 1500

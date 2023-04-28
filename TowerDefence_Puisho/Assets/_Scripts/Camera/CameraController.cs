@@ -104,6 +104,12 @@ public class CameraController : MonoBehaviour
                 }
             }
         }
+#if UNITY_EDITOR
+        if(Input.mouseScrollDelta.y != 0)
+        {
+            _zoomDistance -= Input.mouseScrollDelta.y * _speedZoom;
+        }
+#endif
     }
     private void CameraRaycast()
     {

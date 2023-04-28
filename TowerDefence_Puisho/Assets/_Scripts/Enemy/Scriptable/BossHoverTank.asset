@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d290179224b26f4db042af9a830704f, type: 3}
-  m_Name: HoverTank
+  m_Name: BossHoverTank
   m_EditorClassIdentifier: 
   TypeEnemy: 0
-  MaxHealthEnemy: 600
-  MinDamage: 3
-  MaxDamage: 8
+  MaxHealthEnemy: 2500
+  MinDamage: 10
+  MaxDamage: 30
   SpeedBulletEneny: 50
-  ReloadGun: 5
-  RadiusShooting: 10
-  Reward: 135
+  ReloadGun: 7
+  RadiusShooting: 13
+  Reward: 500

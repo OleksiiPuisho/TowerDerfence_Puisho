@@ -6,7 +6,6 @@ namespace TowerSpace
 
     public class MachineGunTower : Tower
     {
-
         void OnEnable()
         {
             StartCoroutine(TowerReloadCorutine());

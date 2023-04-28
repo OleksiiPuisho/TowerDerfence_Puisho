@@ -13,7 +13,7 @@ public class RocketBehavior : Bullet
     }
     private void Explosion()
     {
-        var colliders = Physics.SphereCastAll(transform.position, _radiusExplosion, transform.forward);
+        var colliders = Physics.SphereCastAll(transform.position, _radiusExplosion, transform.up);
         foreach (var collider in colliders)
         {
             if (gameObject.layer == LayerMask.NameToLayer(_enemyLayerBullet))
@@ -27,8 +27,8 @@ public class RocketBehavior : Bullet
             {
                 if (collider.collider.TryGetComponent<Enemy>(out var enemy) && collider.collider.TryGetComponent<IDamageble>(out var damageble))
                 {
-                    float distanceNormalize = Mathf.Abs((Vector3.Distance(transform.position, enemy.transform.position) / _radiusExplosion - 1f) * 100);
-                    float distanceDamage = DamageBullet * distanceNormalize / 100;
+                    float distanceInversivNormalize = Mathf.Abs((Vector3.Distance(transform.position, enemy.transform.position) / _radiusExplosion - 1f) * 100);
+                    float distanceDamage = DamageBullet * distanceInversivNormalize / 100;
                     damageble.SetDamage(distanceDamage);
                 }
             }
@@ -41,11 +41,16 @@ public class RocketBehavior : Bullet
         var hitParticle = SpawnController.GetObject(_hitParticle);
         hitParticle.transform.SetPositionAndRotation(transform.position, transform.rotation);
         hitParticle.SetActive(true);
+        _trile = null;
     }
     private void OnEnable()
     {
-        _trile = SpawnController.GetObject(_startParticle);
-        _trile.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        _trile.SetActive(true);
+        if (_trile == null)
+        {
+            _trile = SpawnController.GetObject(_startParticle);
+            _trile.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            _trile.SetActive(true);
+        }
+        Invoke(nameof(AutoPut), _timeToDeactivationBullet);
     }
 }

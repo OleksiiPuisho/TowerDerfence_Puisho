@@ -29,4 +29,9 @@ public class GameController : MonoBehaviour
         Money = eventData.StartMoney;
         EventAggregator.Post(this, new MoneyUpdateUIEvent() { Count = Money});
     }
+    private void OnDestroy()
+    {
+        EventAggregator.Unsubscribe<MoneyUpdateEvent>(MoneyUpdateChange);
+        EventAggregator.Unsubscribe<StartGameEvent>(StartGameChange);
+    }
 }

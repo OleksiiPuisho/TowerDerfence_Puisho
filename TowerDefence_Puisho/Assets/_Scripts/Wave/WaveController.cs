@@ -112,4 +112,8 @@ public class WaveController : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(0.1f, 3f));
         _hasSpawn = true;
     }
+    private void OnDestroy()
+    {
+        EventAggregator.Unsubscribe<EnemyDeathEvent>(EnemyDeathChange);
+    }
 }

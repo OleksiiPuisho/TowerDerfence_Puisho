@@ -40,10 +40,15 @@ public class LevelHUD : MonoBehaviour
 
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _destroyButton;
+
     //MainBase Content
     [SerializeField] private TMP_Text _levelBase;
     [SerializeField] private TMP_Text _healthMainBase;
     [SerializeField] private TMP_Text _priceUpgradeMainBase;
+    [SerializeField] private TMP_Text _repairText;
+    [SerializeField] private Button _repairButton;
+    private float _repairPrice;
+
     //Tower Content
     [SerializeField] private TMP_Text _nameTower;
     [SerializeField] private TMP_Text _levelTower;   
@@ -55,8 +60,12 @@ public class LevelHUD : MonoBehaviour
     [SerializeField] private float _timeInvokePanel;
     [SerializeField] private Canvas _gameOverCanvas;
     [SerializeField] private Canvas _gameWinCanvas;
-    private void Awake()
-    {       
+    [Header("PauseGameUI")]
+    [SerializeField] private Button _pauseButton;
+    [SerializeField] private Button _contineGameButton;
+    [SerializeField] private Canvas _canvasPauseGame;
+    void Start()
+    {
         EventAggregator.Subscribe<SelectedTowerEvent>(SelectedTower);
         EventAggregator.Subscribe<SelectedMainBaseEvent>(SelectedMainBase);
         EventAggregator.Subscribe<LevelMaxEvent>(LevelMaxChange);
@@ -71,11 +80,30 @@ public class LevelHUD : MonoBehaviour
         EventAggregator.Subscribe<NotEnoughMoneyEvent>(NotEnoughMoneyChange);
         EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
         EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
-    }
-    void Start()
-    {
+
         _startLevelButton.onClick.AddListener(StartWaveButton);
         _destroyButton.onClick.AddListener(DestroyButton);
+        _pauseButton.onClick.AddListener(GamePauseButton);
+        _contineGameButton.onClick.AddListener(ContineGameButton);
+        _repairButton.onClick.AddListener(RepairButtonMainBase);
+    }
+    private void RepairButtonMainBase()
+    {
+        if (_repairPrice <= GameController.Money)
+        {
+            MainBase.CurrentHealthBase = MainBase.CurrentLevel.MaxHealth;
+            EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = (int)-_repairPrice });
+            _healthSlider.value = MainBase.CurrentHealthBase;
+            _healthSliderText.text = string.Format("{0} / {1}", MainBase.CurrentHealthBase, MainBase.CurrentLevel.MaxHealth);
+            EventAggregator.Post(this, new UpdateInfoMainBaseEvent()
+            {
+                CurrentHealth = MainBase.CurrentHealthBase,
+                MaxHealthBase = MainBase.CurrentLevel.MaxHealth,
+                RepairPrice = 0
+            });
+        }
+        else
+            EventAggregator.Post(this, new NotEnoughMoneyEvent());
     }
     private void LevelMaxChange(object sender, LevelMaxEvent eventData)
     {
@@ -97,7 +125,7 @@ public class LevelHUD : MonoBehaviour
 
         _nameTower.text = eventData.Name;
         _levelTower.text = eventData.Level;
-        _damageTower.text = string.Format("{0} - {1} (x{2})", eventData.MinDamage, eventData.MaxDamage, eventData.BulletSpawnCount);
+        _damageTower.text = string.Format("{0} - {1} (x{2})", (int)(eventData.MinDamage / eventData.BulletSpawnCount), (int)(eventData.MaxDamage / eventData.BulletSpawnCount), eventData.BulletSpawnCount);
         _radiusTower.text = eventData.Radius;
         _priceUpgradeTower.text = eventData.PriceUpgrade;
         _typeAtackTower.text = eventData.AttackType;
@@ -157,7 +185,12 @@ public class LevelHUD : MonoBehaviour
     {
         _healthSlider.maxValue = eventData.MaxHealthBase;        
         _healthSlider.value = eventData.CurrentHealth;
-        _healthSliderText.text = string.Format("{0} / {1}", eventData.CurrentHealth, eventData.MaxHealthBase);
+        _healthSliderText.text = string.Format("{0} / {1}", (int)eventData.CurrentHealth, eventData.MaxHealthBase);
+        _repairPrice = eventData.RepairPrice;
+        if (eventData.RepairPrice > 0)
+            _repairText.text = string.Format("Repair: ${0}", (int)eventData.RepairPrice);
+        else
+            _repairText.text = "Not required";
     }
     private void StartWaveChange(object sender, StartWaveEvent eventData)
     {
@@ -186,9 +219,21 @@ public class LevelHUD : MonoBehaviour
     {
         Time.timeScale = _timeScale;
     }
+    private void GamePauseButton()
+    {
+        Time.timeScale = 0f;
+        _canvasHUD.enabled = false;
+        _canvasPauseGame.enabled = true;
+    }
+    private void ContineGameButton()
+    {
+        Time.timeScale = 1f;
+        _canvasHUD.enabled = true;
+        _canvasPauseGame.enabled = false;
+    }
     private void StartGameUI(object sender, StartGameEvent eventData)
     {
-        _canvasHUD.gameObject.SetActive(true);
+        _canvasHUD.enabled = true;
         _gameOverCanvas.gameObject.SetActive(false);
         _gameWinCanvas.gameObject.SetActive(false);
 
@@ -204,7 +249,7 @@ public class LevelHUD : MonoBehaviour
     }
     private void GameOverChange(object sender, GameOverEvent eventData)
     {
-        _canvasHUD.gameObject.SetActive(false);
+        _canvasHUD.enabled = false;
         Invoke(nameof(InvokeCanvasGameOver), _timeInvokePanel);
     }
     private void InvokeCanvasGameOver()
@@ -214,7 +259,7 @@ public class LevelHUD : MonoBehaviour
     }
     private void GameWinChange(object sender, GameWinEvent eventData)
     {
-        _canvasHUD.gameObject.SetActive(false);
+        _canvasHUD.enabled = false;
         Invoke(nameof(InvokeCanvasGameWin), _timeInvokePanel);
     }
     private void InvokeCanvasGameWin()
@@ -222,5 +267,22 @@ public class LevelHUD : MonoBehaviour
         _gameWinCanvas.gameObject.SetActive(true);
         _audioSource.loop = false;
         AudioManager.InstanceAudio.PlaySfx(SfxType.GameWin, _audioSource);
+    }
+    private void OnDestroy()
+    {
+        EventAggregator.Unsubscribe<SelectedTowerEvent>(SelectedTower);
+        EventAggregator.Unsubscribe<SelectedMainBaseEvent>(SelectedMainBase);
+        EventAggregator.Unsubscribe<LevelMaxEvent>(LevelMaxChange);
+        EventAggregator.Unsubscribe<SelectedBuildPointEvent>(SelectedBuildPointChange);
+        EventAggregator.Unsubscribe<StartGameEvent>(StartGameUI);
+        EventAggregator.Unsubscribe<MoneyUpdateUIEvent>(UpdateMoneyUIChange);
+        EventAggregator.Unsubscribe<DeselectedAllEvent>(DeselectedAllChange);
+        EventAggregator.Unsubscribe<UpdateInfoMainBaseEvent>(UpdateInfoMainBaseChange);
+        EventAggregator.Unsubscribe<StartWaveEvent>(StartWaveChange);
+        EventAggregator.Unsubscribe<UpdateInfoWaveEvent>(UpdateInfoWaveChange);
+        EventAggregator.Unsubscribe<WaitWaweEvent>(WaitWaweChange);
+        EventAggregator.Unsubscribe<NotEnoughMoneyEvent>(NotEnoughMoneyChange);
+        EventAggregator.Unsubscribe<GameOverEvent>(GameOverChange);
+        EventAggregator.Unsubscribe<GameWinEvent>(GameWinChange);
     }
 }

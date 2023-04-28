@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1026660220
 Transform:
   m_ObjectHideFlags: 0
@@ -4822,7 +4822,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026660219}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3021669405841839045, guid: 6e38630d87de0da4a92cdc391194aedf, type: 2}
   m_audioClip: {fileID: 0}
@@ -5026,7 +5026,6 @@ GameObject:
   - component: {fileID: 613027842153280771}
   - component: {fileID: 4398526791882875215}
   - component: {fileID: 5823807500772420916}
-  - component: {fileID: 7450961121623086626}
   m_Layer: 0
   m_Name: MainBase
   m_TagString: Untagged
@@ -5130,7 +5129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameOverParticle: {fileID: 1026660222}
   _gameWinParticle: {fileID: 8156667170540884226}
-  _allLevelsBase:
+  AllLevelsBase:
   - {fileID: 11400000, guid: 55dfc9501af420041af5e9f652413955, type: 2}
   - {fileID: 11400000, guid: d739d22e40b24024b88c4c88b92a6296, type: 2}
   - {fileID: 11400000, guid: 0e5805c41a06ac14aabd3be044a4bb59, type: 2}
@@ -5148,22 +5147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectedIcon: {fileID: 666052389533602597}
   TypeObject: 1
---- !u!54 &7450961121623086626
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1321563981420202537}
-  serializedVersion: 2
-  m_Mass: 500
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2638741456527594657
 GameObject:
   m_ObjectHideFlags: 0
@@ -14943,9 +14926,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6817030551796154502, guid: 287405abd2f30fe4e8238ad05dee040a, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6817030551796154502, guid: 287405abd2f30fe4e8238ad05dee040a, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 284169030cdb44ac5aeed3136719a521, type: 3}
+      objectReference: {fileID: 8300000, guid: ecfb4b9ac248c244aaf6b21df9234838, type: 3}
     - target: {fileID: 6894561876146822316, guid: 287405abd2f30fe4e8238ad05dee040a, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TypeEnemy: 1
   MaxHealthEnemy: 250
-  MinDamage: 3
-  MaxDamage: 7
+  MinDamage: 1
+  MaxDamage: 5
   SpeedBulletEneny: 50
   ReloadGun: 2
   RadiusShooting: 12
-  Reward: 65
+  Reward: 55

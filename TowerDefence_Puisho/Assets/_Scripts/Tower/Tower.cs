@@ -11,15 +11,15 @@ namespace TowerSpace
         [SerializeField] internal AudioSource _audioSource;
         public TowerScriptable TowerScriptable;
         public TowerLevel CurrentTowerLevel;
-        internal StateTower CurrentState;
-        internal Enemy TargetAttack;
+        protected StateTower CurrentState;
+        protected Enemy TargetAttack;
 
-        [SerializeField] internal GameObject PrefabBullet;
+        [SerializeField] protected GameObject PrefabBullet;
         [SerializeField] internal Transform[] SpawnBullet;
-        [SerializeField] internal Transform Turret;
+        [SerializeField] protected Transform Turret;
 
-        internal bool _hasAttack = false;
-        internal bool _lookToTarget = false;
+        protected bool _hasAttack = false;
+        protected bool _lookToTarget = false;
         public void UpgradeLevelTower()
         {
             if (CurrentTowerLevel != TowerLevel.Level_3)
@@ -36,8 +36,8 @@ namespace TowerSpace
                         EventAggregator.Post(this, new SelectedTowerEvent()
                         {
                             Name = tower.TowerScriptable.Name,
-                            MinDamage = tower.TowerScriptable.MinDamageTower.ToString(),
-                            MaxDamage = tower.TowerScriptable.MaxDamageTower.ToString(),
+                            MinDamage = tower.TowerScriptable.MinDamageTower,
+                            MaxDamage = tower.TowerScriptable.MaxDamageTower,
                             Level = tower.CurrentTowerLevel.ToString()[6..],
                             PriceUpgrade = "Max Level",
                             Radius = tower.TowerScriptable.RadiusAttack.ToString(),
@@ -50,8 +50,8 @@ namespace TowerSpace
                         EventAggregator.Post(this, new SelectedTowerEvent()
                         {
                             Name = tower.TowerScriptable.Name,
-                            MinDamage = tower.TowerScriptable.MinDamageTower.ToString(),
-                            MaxDamage = tower.TowerScriptable.MaxDamageTower.ToString(),
+                            MinDamage = tower.TowerScriptable.MinDamageTower,
+                            MaxDamage = tower.TowerScriptable.MaxDamageTower,
                             Level = tower.CurrentTowerLevel.ToString()[6..],
                             PriceUpgrade = tower.TowerScriptable.PriceUpgrade.ToString(),
                             Radius = tower.TowerScriptable.RadiusAttack.ToString(),
@@ -92,6 +92,7 @@ namespace TowerSpace
                         {
                             TargetAttack = enemy;
                             UpdateState(StateTower.Attack);
+                            return;
                         }
                     }
                 }
@@ -106,6 +107,7 @@ namespace TowerSpace
                         {
                             TargetAttack = enemy;
                             UpdateState(StateTower.Attack);
+                            return;
                         }
                     }
                 }
@@ -126,13 +128,12 @@ namespace TowerSpace
                         var bullet = bulletObject.GetComponent<Bullet>();
                         bulletObject.transform.SetPositionAndRotation(SpawnBullet[i].position, SpawnBullet[i].rotation);
 
-                        bullet.DamageBullet = Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower);
+                        bullet.DamageBullet = Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower) / SpawnBullet.Length;
                         bullet.SpeedBullet = TowerScriptable.SpeedBulletTower;
 
-                        bullet.gameObject.SetActive(true);
-                        bullet.AutoPutBullet();
-                        AudioManager.InstanceAudio.PlaySfx(SfxType.Bullet, _audioSource);
+                        bullet.gameObject.SetActive(true);                       
                     }
+                    AudioManager.InstanceAudio.PlaySfx(SfxType.Bullet, _audioSource);
 
                     _hasAttack = false;
                     StartCoroutine(TowerReloadCorutine());
@@ -156,17 +157,15 @@ namespace TowerSpace
         {
             var directionRotatation = Quaternion.LookRotation(TargetAttack.transform.position - Turret.position);
             Turret.rotation = Quaternion.Slerp(Turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
-            if (!_lookToTarget)
+            if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
             {
-                if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+                if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
                 {
-                    if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
-                    {
-                        TargetAttack = enemy;
-                        _lookToTarget = true;
-                    }
+                    TargetAttack = enemy;
+                    _lookToTarget = true;
                 }
             }
+            else _lookToTarget = false;
         }
         internal IEnumerator TowerReloadCorutine()
         {

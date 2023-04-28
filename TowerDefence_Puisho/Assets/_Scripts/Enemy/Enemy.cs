@@ -78,6 +78,11 @@ public class Enemy : MonoBehaviour, IDamageble
                 break;            
         }
     }
+    [ContextMenu("lll")]
+    private void ggg()
+    {
+        Debug.Log(_currentEnemyState + " / " + EnemyScriptable.RadiusShooting + " / " + _agent.destination);
+    }
     private void Movement()
     {
         _agent.destination = _mainBaseTarget.position;
@@ -89,11 +94,8 @@ public class Enemy : MonoBehaviour, IDamageble
     }
     private void AttackMainBase()
     {
-        if (_hasAttack)
-        {
-            _agent.destination = transform.position;
-            Shooting(_mainBaseTarget);
-        }
+        _agent.destination = transform.position;
+        Shooting(_mainBaseTarget);
         if (Vector3.Distance(_agent.transform.position, _mainBaseTarget.position) > EnemyScriptable.RadiusShooting)
             UpdateStateAgent(EnemyState.Movement);
     }
@@ -109,11 +111,10 @@ public class Enemy : MonoBehaviour, IDamageble
                 var bullet = bulletObject.GetComponent<Bullet>();
                 bulletObject.transform.SetPositionAndRotation(_spawnBullet[i].position, _spawnBullet[i].rotation);
 
-                bullet.DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage);
+                bullet.DamageBullet = Random.Range(EnemyScriptable.MinDamage, EnemyScriptable.MaxDamage) / _spawnBullet.Length;
                 bullet.SpeedBullet = EnemyScriptable.SpeedBulletEneny;
 
                 bullet.gameObject.SetActive(true);
-                bullet.AutoPutBullet();
 
                 if (bullet.GetComponent<Bullet>())
                     AudioManager.InstanceAudio.PlaySfx(SfxType.Bullet, _audioSource);
@@ -145,5 +146,6 @@ public class Enemy : MonoBehaviour, IDamageble
         _healthSlider.maxValue = EnemyScriptable.MaxHealthEnemy;
         _healthSlider.value = EnemyScriptable.MaxHealthEnemy;
         _healthSlider.gameObject.SetActive(false);
+        StartCoroutine(ReloadCorutine());
     }
 }

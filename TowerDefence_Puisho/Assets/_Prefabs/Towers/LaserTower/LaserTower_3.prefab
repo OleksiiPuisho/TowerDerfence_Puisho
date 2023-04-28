@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 7564670093322051684}
   - component: {fileID: 3421391944604161109}
   - component: {fileID: 1662472645425918166}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LaserTower_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4584617968799763015}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.8136878, y: 0.5009834, z: 1.8136879}
@@ -438,6 +438,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserTower_3Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 884757755584508086, guid: facf4a2d831ccc743a1c3e75c189fe5c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 884757755584670870, guid: facf4a2d831ccc743a1c3e75c189fe5c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -481,6 +485,10 @@ PrefabInstance:
     - target: {fileID: 884757755584670870, guid: facf4a2d831ccc743a1c3e75c189fe5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789804160649263325, guid: facf4a2d831ccc743a1c3e75c189fe5c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7046271415191350898, guid: facf4a2d831ccc743a1c3e75c189fe5c, type: 3}
       propertyPath: NoiseModule.enabled

@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 4511324347009763124}
   - component: {fileID: 2312657855094619974}
   - component: {fileID: 5936494414915650633}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RocketTower_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4674743552813131360}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -572,6 +572,10 @@ PrefabInstance:
     - target: {fileID: 4222286575209259811, guid: 281904d5b63ffc244a11abe32c5b35f0, type: 3}
       propertyPath: m_Name
       value: RocketTower_1Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222286575209259811, guid: 281904d5b63ffc244a11abe32c5b35f0, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4222286575216546019, guid: 281904d5b63ffc244a11abe32c5b35f0, type: 3}

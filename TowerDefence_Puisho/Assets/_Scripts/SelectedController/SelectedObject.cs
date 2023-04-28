@@ -49,15 +49,14 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
         }
         else
         {
-            var tower = SelectedObjectController.CurrentSelectedObject.GetComponent<Tower>();           
-
+            var tower = SelectedObjectController.CurrentSelectedObject.GetComponent<Tower>();
             if (tower.CurrentTowerLevel == TowerLevel.Level_3)
             {                
                 EventAggregator.Post(this, new SelectedTowerEvent()
                 {
                     Name = tower.TowerScriptable.Name,
-                    MinDamage = tower.TowerScriptable.MinDamageTower.ToString(),
-                    MaxDamage = tower.TowerScriptable.MaxDamageTower.ToString(),
+                    MinDamage = tower.TowerScriptable.MinDamageTower,
+                    MaxDamage = tower.TowerScriptable.MaxDamageTower,
                     Level = tower.CurrentTowerLevel.ToString()[6..],
                     PriceUpgrade = "Max Level",
                     Radius = tower.TowerScriptable.RadiusAttack.ToString(),
@@ -71,8 +70,8 @@ public class SelectedObject : MonoBehaviour, IPointerDownHandler, IPointerClickH
                 EventAggregator.Post(this, new SelectedTowerEvent()
                 {
                     Name = tower.TowerScriptable.Name,
-                    MinDamage = tower.TowerScriptable.MinDamageTower.ToString(),
-                    MaxDamage = tower.TowerScriptable.MaxDamageTower.ToString(),
+                    MinDamage = tower.TowerScriptable.MinDamageTower,
+                    MaxDamage = tower.TowerScriptable.MaxDamageTower,
                     Level = tower.CurrentTowerLevel.ToString()[6..],
                     PriceUpgrade = tower.TowerScriptable.PriceUpgrade.ToString(),
                     Radius = tower.TowerScriptable.RadiusAttack.ToString(),

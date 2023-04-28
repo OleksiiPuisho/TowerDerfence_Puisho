@@ -16,7 +16,6 @@ namespace TowerSpace
                 RotateTower();
                 if (_hasAttack && _lookToTarget)
                 {
-                    PrefabBullet.SetActive(true);
                     SpawnBullet[0].transform.LookAt(TargetAttack.transform);
                     if (Physics.Raycast(SpawnBullet[0].position, SpawnBullet[0].forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
                     {
@@ -25,6 +24,10 @@ namespace TowerSpace
                             damageble.SetDamage(Random.Range(TowerScriptable.MinDamageTower, TowerScriptable.MaxDamageTower));
                             _hasAttack = false;
                             StartCoroutine(TowerReloadCorutine());
+                        }
+                        else
+                        {
+                            PrefabBullet.SetActive(false);
                         }
                     }
                 }
@@ -48,17 +51,20 @@ namespace TowerSpace
         {
             var directionRotatation = Quaternion.LookRotation(TargetAttack.transform.position - Turret.position);
             Turret.rotation = Quaternion.Slerp(Turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
-            if (!_lookToTarget)
+
+            if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
             {
-                if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+                if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
                 {
-                    if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
-                    {
-                        TargetAttack = enemy;
-                        _lookToTarget = true;
-                        PrefabBullet.SetActive(true);
-                    }
+                    TargetAttack = enemy;
+                    _lookToTarget = true;
+                    PrefabBullet.SetActive(true);
                 }
+            }
+            else
+            {
+                PrefabBullet.SetActive(false);
+                _lookToTarget = false;
             }
         }
         private void OnEnable()
