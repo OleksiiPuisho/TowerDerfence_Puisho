@@ -18,6 +18,7 @@ MonoBehaviour:
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
     - Count: 3
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
+    RewardWave: 200
   - EnemyInstances:
     - Count: 22
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
@@ -25,6 +26,7 @@ MonoBehaviour:
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
     - Count: 2
       PrefabEnemy: {fileID: 726867145002159634, guid: 3fed0674d35bf6849b3b3a4ab207f4b0, type: 3}
+    RewardWave: 100
   - EnemyInstances:
     - Count: 28
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
@@ -32,6 +34,7 @@ MonoBehaviour:
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
     - Count: 7
       PrefabEnemy: {fileID: 726867145002159634, guid: 3fed0674d35bf6849b3b3a4ab207f4b0, type: 3}
+    RewardWave: 100
   - EnemyInstances:
     - Count: 33
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
@@ -39,6 +42,7 @@ MonoBehaviour:
       PrefabEnemy: {fileID: 6329936145837003823, guid: d9acd65421b940a45be143bef769ba8a, type: 3}
     - Count: 12
       PrefabEnemy: {fileID: 726867145002159634, guid: 3fed0674d35bf6849b3b3a4ab207f4b0, type: 3}
+    RewardWave: 100
   - EnemyInstances:
     - Count: 35
       PrefabEnemy: {fileID: 2599175246774469643, guid: e606e6b073cd0e242acedd95d6bbcc95, type: 3}
@@ -48,3 +52,4 @@ MonoBehaviour:
       PrefabEnemy: {fileID: 726867145002159634, guid: 3fed0674d35bf6849b3b3a4ab207f4b0, type: 3}
     - Count: 1
       PrefabEnemy: {fileID: 3439666878555795149, guid: 38c9681e7999c594aa5ef64fcd6d0baf, type: 3}
+    RewardWave: 0

@@ -66,4 +66,8 @@ public static class SpawnController
         result.name = gameObject.name;
         return result;
     }
+    public static void ClearAllOnScene()
+    {
+        _spawnObject.Clear();
+    }
 }

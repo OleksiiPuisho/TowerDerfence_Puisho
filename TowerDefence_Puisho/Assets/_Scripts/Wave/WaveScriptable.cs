@@ -17,4 +17,5 @@ public class EnemyInstance
 public class Wave
 {
     public EnemyInstance[] EnemyInstances;
+    public int RewardWave;
 }

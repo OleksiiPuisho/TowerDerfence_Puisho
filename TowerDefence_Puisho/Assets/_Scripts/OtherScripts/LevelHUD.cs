@@ -217,7 +217,7 @@ public class LevelHUD : MonoBehaviour
     }
     private void StartWaveButton()
     {
-        Time.timeScale = _timeScale;
+        EventAggregator.Post(this, new FastStartWaveEvent());
     }
     private void GamePauseButton()
     {

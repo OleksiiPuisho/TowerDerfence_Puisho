@@ -19,6 +19,7 @@ public class StartLevel : MonoBehaviour
     }
     void Awake()
     {
+        SpawnController.ClearAllOnScene();
         InitializeSpawn();
     }
     private void Start()

@@ -16,13 +16,18 @@ public class WaveController : MonoBehaviour
     [SerializeField] private WaveScriptable _wavesLevel;
 
     [SerializeField] private int _timeToWave;
+    private float _speedWaitWaveTime = 1f;
     private int _timeToWaveHelper;
     private int _currentWave = 0;
     private bool _hasSpawn = false;
     void Awake()
     {
-        StartCoroutine(TimerToNextWave());
+        StartCoroutine(TimerToNextWave());        
+    }
+    private void Start()
+    {
         EventAggregator.Subscribe<EnemyDeathEvent>(EnemyDeathChange);
+        EventAggregator.Subscribe<FastStartWaveEvent>(FastStartWaveChange);
     }
     void Update()
     {
@@ -31,13 +36,14 @@ public class WaveController : MonoBehaviour
     }
     IEnumerator TimerToNextWave()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(_speedWaitWaveTime);
         _timeToWaveHelper++;
         EventAggregator.Post(this, new WaitWaweEvent() { Timer = _timeToWaveHelper, MaxTime = _timeToWave });
         if (_timeToWaveHelper >= _timeToWave)
         {
             UpdateListEnemy();
             _currentWave++;
+            _speedWaitWaveTime = 1f;
             StopCoroutine(TimerToNextWave());
             EventAggregator.Post(this, new StartWaveEvent() 
             { 
@@ -99,6 +105,7 @@ public class WaveController : MonoBehaviour
             {
                 _timeToWaveHelper = 0;
                 EventAggregator.Post(this, new WaitWaweEvent() { Timer = _timeToWaveHelper, MaxTime = _timeToWave });
+                EventAggregator.Post(this, new MoneyUpdateEvent() { MoneyCount = _wavesLevel.Waves[_currentWave].RewardWave });
                 StartCoroutine(TimerToNextWave());
             }
         }
@@ -107,13 +114,20 @@ public class WaveController : MonoBehaviour
             EventAggregator.Post(this, new UpdateInfoWaveEvent() { EnemiesLeft = _enemyCounter });
         }
     }
+    private void FastStartWaveChange(object sender, FastStartWaveEvent eventData)
+    {
+        _speedWaitWaveTime = 0.1f;
+    }
     IEnumerator TimeToSpawn()
     {
         yield return new WaitForSeconds(Random.Range(0.1f, 3f));
         _hasSpawn = true;
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         EventAggregator.Unsubscribe<EnemyDeathEvent>(EnemyDeathChange);
+        EventAggregator.Unsubscribe<FastStartWaveEvent>(FastStartWaveChange);
+        EnemiesAirList.Clear();
+        EnemiesGroundList.Clear();
     }
 }

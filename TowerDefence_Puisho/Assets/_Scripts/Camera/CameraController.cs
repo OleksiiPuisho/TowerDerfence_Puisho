@@ -29,21 +29,24 @@ public class CameraController : MonoBehaviour
 
     private Vector2 _centerScreen;
     void Awake()
-    {
-        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
-        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
-        _camera = gameObject.transform;
+    {        
+        _camera = transform;
         _animator = GetComponent<Animator>();
         _centerScreen = new Vector2(Screen.width / 2, Screen.height / 2);
 #if UNITY_EDITOR
         _speedPosition *= 2f;
 #endif
     }
+    private void Start()
+    {
+        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
+        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
+    }
 
     void LateUpdate()
     {
         CameraRaycast();
-        CameraMovement(_camera.transform);
+        CameraMovement(transform);
         Zoom();
         _zoomDistance = Mathf.Clamp(_zoomDistance, _minZoom, _maxZoom);
     }
@@ -134,5 +137,10 @@ public class CameraController : MonoBehaviour
     {
         _animator.enabled = true;
         GetComponent<CameraController>().enabled = false;
+    }
+    private void OnDisable()
+    {
+        EventAggregator.Unsubscribe<GameWinEvent>(GameWinChange);
+        EventAggregator.Unsubscribe<GameOverEvent>(GameOverChange);
     }
 }

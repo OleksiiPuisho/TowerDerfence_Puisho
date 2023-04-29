@@ -51,13 +51,16 @@ public class Enemy : MonoBehaviour, IDamageble
             _healthSlider.gameObject.SetActive(true);
     }
     void Awake()
-    {
-        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
-        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
+    {        
         _audioSource = GetComponent<AudioSource>();
         _mainBaseTarget = FindObjectOfType<MainBase>().transform;
         _agent = GetComponent<NavMeshAgent>();
         StartCoroutine(ReloadCorutine());       
+    }
+    private void Start()
+    {
+        EventAggregator.Subscribe<GameWinEvent>(GameWinChange);
+        EventAggregator.Subscribe<GameOverEvent>(GameOverChange);
     }
 
     void Update()
@@ -147,5 +150,10 @@ public class Enemy : MonoBehaviour, IDamageble
         _healthSlider.value = EnemyScriptable.MaxHealthEnemy;
         _healthSlider.gameObject.SetActive(false);
         StartCoroutine(ReloadCorutine());
+    }
+    private void OnDisable()
+    {
+        EventAggregator.Unsubscribe<GameWinEvent>(GameWinChange);
+        EventAggregator.Unsubscribe<GameOverEvent>(GameOverChange);
     }
 }

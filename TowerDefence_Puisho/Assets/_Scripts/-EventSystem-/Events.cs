@@ -75,4 +75,8 @@ namespace Helpers.Events
     {
         
     }
+    public class FastStartWaveEvent
+    {
+
+    }
 }
