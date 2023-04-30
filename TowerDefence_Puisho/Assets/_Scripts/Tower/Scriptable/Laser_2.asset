@@ -17,8 +17,8 @@ MonoBehaviour:
   HasAttackAirTarget: 0
   NextPrefabTower: {fileID: 4584617968799763015, guid: e59c0a29ddf08cc4a9cca3061adaa918, type: 3}
   Name: Laser Tower
-  MinDamageTower: 5
-  MaxDamageTower: 10
+  MinDamageTower: 6
+  MaxDamageTower: 12
   SpeedBulletTower: 1
   SpeedRotation: 12
   ReloadGunTower: 0.1

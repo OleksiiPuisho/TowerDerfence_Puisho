@@ -19,4 +19,4 @@ MonoBehaviour:
   SpeedBulletEneny: 50
   ReloadGun: 0.5
   RadiusShooting: 8
-  Reward: 16
+  Reward: 18

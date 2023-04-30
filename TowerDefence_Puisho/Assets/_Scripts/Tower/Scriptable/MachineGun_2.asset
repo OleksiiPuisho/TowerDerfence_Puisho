@@ -18,7 +18,7 @@ MonoBehaviour:
   NextPrefabTower: {fileID: 7979552494319624223, guid: 26588e2f75f2b524daaeee635eed2929, type: 3}
   Name: Machine Gun
   MinDamageTower: 2
-  MaxDamageTower: 5
+  MaxDamageTower: 6
   SpeedBulletTower: 50
   SpeedRotation: 15
   ReloadGunTower: 0.1
