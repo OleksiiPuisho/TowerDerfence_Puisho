@@ -18,7 +18,7 @@ namespace TowerSpace
         [SerializeField] internal Transform[] SpawnBullet;
         [SerializeField] protected Transform Turret;
 
-        protected bool _hasAttack = false;
+        protected bool _hasAttack = true;
         protected bool _lookToTarget = false;
         public void UpgradeLevelTower()
         {
@@ -144,8 +144,6 @@ namespace TowerSpace
                 {
                     TargetAttack = null;
                     _lookToTarget = false;
-                    if (!_hasAttack)
-                        StartCoroutine(TowerReloadCorutine());
 
                     UpdateState(StateTower.SearchTarget);
                 }
@@ -157,7 +155,7 @@ namespace TowerSpace
         {
             var directionRotatation = Quaternion.LookRotation(TargetAttack.transform.position - Turret.position);
             Turret.rotation = Quaternion.Slerp(Turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
-            if (Physics.Raycast(SpawnBullet[0].position, SpawnBullet[0].forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+            if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
             {
                 if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
                 {

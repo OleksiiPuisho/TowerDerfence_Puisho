@@ -17,8 +17,8 @@ MonoBehaviour:
   HasAttackAirTarget: 1
   NextPrefabTower: {fileID: 5354550900402083945, guid: 265e72a627e8121409d6f3a005854a4c, type: 3}
   Name: Rocket
-  MinDamageTower: 120
-  MaxDamageTower: 160
+  MinDamageTower: 130
+  MaxDamageTower: 170
   SpeedBulletTower: 70
   SpeedRotation: 8
   ReloadGunTower: 2.5

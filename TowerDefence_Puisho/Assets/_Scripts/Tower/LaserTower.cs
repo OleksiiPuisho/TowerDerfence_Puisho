@@ -52,9 +52,9 @@ namespace TowerSpace
             var directionRotatation = Quaternion.LookRotation(TargetAttack.transform.position - Turret.position);
             Turret.rotation = Quaternion.Slerp(Turret.rotation, directionRotatation, TowerScriptable.SpeedRotation * Time.deltaTime);
 
-            if (Physics.Raycast(SpawnBullet[0].position, SpawnBullet[0].forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
+            if (Physics.Raycast(Turret.position, Turret.forward, out RaycastHit hit, TowerScriptable.RadiusAttack))
             {
-                if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy))
+                if (hit.collider.gameObject.TryGetComponent<Enemy>(out var enemy) && enemy.EnemyScriptable.TypeEnemy == TypeEnemy.Ground)
                 {
                     TargetAttack = enemy;
                     _lookToTarget = true;

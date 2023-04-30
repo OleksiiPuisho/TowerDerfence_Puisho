@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Buggy
   m_EditorClassIdentifier: 
   TypeEnemy: 0
-  MaxHealthEnemy: 100
+  MaxHealthEnemy: 150
   MinDamage: 0.5
   MaxDamage: 2
   SpeedBulletEneny: 50

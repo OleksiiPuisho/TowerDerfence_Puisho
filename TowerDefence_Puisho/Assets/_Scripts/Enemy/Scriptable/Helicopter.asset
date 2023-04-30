@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Helicopter
   m_EditorClassIdentifier: 
   TypeEnemy: 1
-  MaxHealthEnemy: 250
+  MaxHealthEnemy: 300
   MinDamage: 1
   MaxDamage: 5
   SpeedBulletEneny: 50

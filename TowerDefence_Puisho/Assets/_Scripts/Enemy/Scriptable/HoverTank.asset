@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HoverTank
   m_EditorClassIdentifier: 
   TypeEnemy: 0
-  MaxHealthEnemy: 600
+  MaxHealthEnemy: 800
   MinDamage: 3
   MaxDamage: 8
   SpeedBulletEneny: 50

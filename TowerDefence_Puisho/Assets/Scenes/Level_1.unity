@@ -12015,7 +12015,7 @@ MonoBehaviour:
   - _prefab: {fileID: 2294907929275975838, guid: 384858bab5e7c404d986cd073d10594d, type: 3}
     _count: 10
   _globalParent: {fileID: 174837936}
-  _startMoney: 1000
+  _startMoney: 1600
   _isTutorial: 1
   _canvasTuturial: {fileID: 693919180}
 --- !u!82 &1764383805

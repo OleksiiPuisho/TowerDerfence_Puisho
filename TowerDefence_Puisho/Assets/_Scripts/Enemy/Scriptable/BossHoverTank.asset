@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossHoverTank
   m_EditorClassIdentifier: 
   TypeEnemy: 0
-  MaxHealthEnemy: 2500
+  MaxHealthEnemy: 5000
   MinDamage: 10
   MaxDamage: 30
   SpeedBulletEneny: 50

@@ -17,11 +17,11 @@ MonoBehaviour:
   HasAttackAirTarget: 0
   NextPrefabTower: {fileID: 4584617968799763015, guid: e59c0a29ddf08cc4a9cca3061adaa918, type: 3}
   Name: Laser Tower
-  MinDamageTower: 7
-  MaxDamageTower: 12
+  MinDamageTower: 5
+  MaxDamageTower: 10
   SpeedBulletTower: 1
   SpeedRotation: 12
   ReloadGunTower: 0.1
-  RadiusAttack: 14
+  RadiusAttack: 12
   PriceTower: 700
   PriceUpgrade: 1200

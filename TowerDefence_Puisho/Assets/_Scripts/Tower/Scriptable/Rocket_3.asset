@@ -22,6 +22,6 @@ MonoBehaviour:
   SpeedBulletTower: 70
   SpeedRotation: 9
   ReloadGunTower: 2
-  RadiusAttack: 18
+  RadiusAttack: 16
   PriceTower: 800
   PriceUpgrade: 0

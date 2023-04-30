@@ -51,9 +51,14 @@ public class Bullet : MonoBehaviour
         particle.transform.SetPositionAndRotation(transform.position, transform.rotation);
         particle.SetActive(true);
     }
+    IEnumerator AutoPutCor()
+    {
+        yield return new WaitForSeconds(_timeToDeactivationBullet);
+        AutoPut();
+    }
     private void OnEnable()
     {
         ParticleChange(_startParticle);
-        Invoke(nameof(AutoPut), _timeToDeactivationBullet);
+        StartCoroutine(AutoPutCor());
     }
 }
